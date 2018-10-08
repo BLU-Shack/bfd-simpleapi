@@ -17,6 +17,11 @@
     "bots for discord",
     "bfdapi"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/test-resp/bfd-simpleapi.git",
+    "homepage": "https://github.com/test-resp/bfd-simpleapi"
+  },
   "author": "iRED",
   "license": "ISC"
 }
