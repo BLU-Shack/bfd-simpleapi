@@ -1,0 +1,22 @@
+{
+  "name": "bfd-simpleapi",
+  "version": "1.0.6",
+  "description": "A simplified, alternative API for Bots for Discord",
+  "main": "src/run.js",
+  "dependencies": {
+    "snekfetch": "^4.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bfd",
+    "botsfordiscord",
+    "bfd-api",
+    "bots for discord",
+    "bfdapi"
+  ],
+  "author": "iRED",
+  "license": "ISC"
+}
