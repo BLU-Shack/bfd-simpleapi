@@ -1,14 +1,17 @@
 {
   "name": "bfd-simpleapi",
-  "version": "1.0.6",
-  "description": "A simplified, alternative API for Bots for Discord",
+  "version": "2.0.0",
+  "description": "A simplified alternative to Bots for Discord",
   "main": "src/run.js",
   "dependencies": {
-    "snekfetch": "^4.0.4"
+    "snekfetch": "^4.0.4",
+    "toast-jsdoc": "^1.0.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./examples/test.js",
+    "dev": "node ./examples-private/dev.js",
+    "docs": "jsdoc src/ -r README.md -c .jsdoc.json -d docs/"
   },
   "keywords": [
     "bfd",
@@ -19,9 +22,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/test-resp/bfd-simpleapi.git",
-    "homepage": "https://github.com/test-resp/bfd-simpleapi"
+    "url": "git+https://github.com/iREDMe/simple.space.git",
+    "homepage": "https://github.com/iREDMe/simple.space.git"
   },
   "author": "iRED",
-  "license": "ISC"
+  "license": "MIT"
 }
