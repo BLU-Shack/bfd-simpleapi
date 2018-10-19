@@ -22,8 +22,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iREDMe/simple.space.git",
-    "homepage": "https://github.com/iREDMe/simple.space.git"
+    "url": "git+https://github.com/iREDMe/bfd-simpleapi.git",
+    "homepage": "https://github.com/iREDMe/bfd-simpleapi.git"
   },
   "author": "iRED",
   "license": "MIT"
