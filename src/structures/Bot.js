@@ -23,7 +23,7 @@ class Bot extends Base {
          * Whether or not the bot is approved.
          * @type {Boolean}
          */
-        this.approved = bot.approved;
+        this.isApproved = bot.approved;
         /**
          * The bot's ID.
          * @type {String}
@@ -97,7 +97,7 @@ class Bot extends Base {
      */
     support(code = false) {
         if (!this.bot.support_server) return null;
-        return code ? this.bot.support_server.split('/')[3] : this.bot.support_server;
+        return code ? this.bot.support_server.replace(/(https|http):\/\/discord\.gg\//, '') : this.bot.support_server;
     }
 
     /**
@@ -107,7 +107,7 @@ class Bot extends Base {
      * @example
      * Bot.owners({ specified: 'username' })
      *  .then(owners => console.log(`The bot owners' usernames are ${owners}`))
-     *  .catch(console.log);
+     *  .catch(console.error);
      */
     owners(options = {}) {
         if (options !== Object(options) || options instanceof Array) throw new TypeError('options must be an object.');

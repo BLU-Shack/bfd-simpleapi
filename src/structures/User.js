@@ -43,20 +43,15 @@ class User extends Base {
          */
         this.isVerifiedDeveloper = user.isVerifiedDev;
         /**
-         * The user's tag.
-         * @type {String}
-         */
-        this.tag = user.tag;
-        /**
-         * The user's discriminator.
-         * @type {String}
-         */
-        this.discriminator = this.tag.substr(this.tag.length - 4);
-        /**
          * The user's website, if any.
          * @type {String|null}
          */
         this.website = user.website || null;
+        /**
+         * The user's background, if any.
+         * @type {String|null}
+         */
+        this.background = user.background || null;
     }
 }
 

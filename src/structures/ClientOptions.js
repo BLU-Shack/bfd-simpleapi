@@ -36,6 +36,6 @@ class ClientOptions {
  * The default client options.
  * @static
  */
-ClientOptions.default = { token: false, botID: false, client: 'none', log: false };
+ClientOptions.default = { token: false, botID: false, client: false, log: false };
 
 exports.ClientOptions = ClientOptions;

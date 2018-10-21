@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>structures/WidgetFetchOptions.js - Documentation</title>
+    <title>structures/PostOptions.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">structures/WidgetFetchOptions.js</h1>
+    <h1 class="page-title">structures/PostOptions.js</h1>
     
     
 
@@ -38,30 +38,37 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * The Fetch Options when fetching for a widget.
+ * Post Options when posting guild size.
  * @class
  */
-class WidgetFetchOptions {
+class PostOptions {
     /**
      * @constructor
-     * @param {Object} options The Fetch Options for Widgets.
+     * @param {Object} options The Post Options.
+     * @param {Object} preset The already set options.
      */
-    constructor(options) {
+    constructor(options, preset) {
         /**
-         * Sets the width of the widget.
-         * @type {Number}
+         * The API token.
+         * @type {String}
          */
-        this.width = `?width=${options.width || 400}`;
+        this.token = options.token || preset.token;
 
         /**
-         * Sets the height of the widget.
-         * @type {Number}
+         * The bot ID.
+         * @type {String}
          */
-        this.height = `?height=${options.height || 180}`;
+        this.botID = options.botID || preset.botID;
+
+        /**
+         * The guild count.
+         * @type {String}
+         */
+        this.guildCount = options.guildCount || (preset.client ? preset.client.guilds.size : 'Missing');
     }
 }
 
-exports.WidgetFetchOptions = WidgetFetchOptions;</code></pre>
+exports.PostOptions = PostOptions;</code></pre>
         </article>
     </section>
 

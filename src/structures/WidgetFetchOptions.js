@@ -13,6 +13,7 @@ class WidgetFetchOptions {
          * @type {Number}
          */
         this.width = `?width=${options.width || 400}`;
+
         /**
          * Sets the height of the widget.
          * @type {Number}

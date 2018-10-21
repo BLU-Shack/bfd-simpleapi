@@ -24,7 +24,19 @@ class Base {
          * The Base's username.
          * @type {String}
          */
-        this.username = base.name;
+        this.username = base.username || base.name;
+
+        /**
+         * The Base's discriminator.
+         * @type {String}
+         */
+        this.discriminator = base.discrim;
+
+        /**
+         * The Base's tag.
+         * @type {String}
+         */
+        this.tag = base.tag;
     }
 }
 

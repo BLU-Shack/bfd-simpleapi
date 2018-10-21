@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>structures/WidgetFetchOptions.js - Documentation</title>
+    <title>PostOptions - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,42 +28,429 @@
 
 <div id="main">
     
-    <h1 class="page-title">structures/WidgetFetchOptions.js</h1>
+    <h1 class="page-title">PostOptions</h1>
     
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * The Fetch Options when fetching for a widget.
- * @class
- */
-class WidgetFetchOptions {
-    /**
-     * @constructor
-     * @param {Object} options The Fetch Options for Widgets.
-     */
-    constructor(options) {
-        /**
-         * Sets the width of the widget.
-         * @type {Number}
-         */
-        this.width = `?width=${options.width || 400}`;
+        <h2>
+        PostOptions
+        </h2>
+        
+            <div class="class-description">Post Options when posting guild size.</div>
+        
+    
+</header>
 
-        /**
-         * Sets the height of the widget.
-         * @type {Number}
-         */
-        this.height = `?height=${options.height || 180}`;
-    }
-}
+<article>
+    <div class="container-overview">
+    
+        
 
-exports.WidgetFetchOptions = WidgetFetchOptions;</code></pre>
-        </article>
-    </section>
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="PostOptions"><span class="type-signature"></span>new PostOptions<span class="signature">(options, preset)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The Post Options.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>preset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The already set options.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="structures_PostOptions.js.html">structures/PostOptions.js</a>, <a href="structures_PostOptions.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            <div class="subsection-item">
+                
+<h4 class="name" id="botID"><span class="type-signature"></span>botID<span class="type-signature"> :String</span></h4>
+
+
+
+
+<div class="description">
+    The bot ID.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul class="ul-type">
+        <li>
+            
+<span class="param-type">String</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="structures_PostOptions.js.html">structures/PostOptions.js</a>, <a href="structures_PostOptions.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            </div>
+        
+            <div class="subsection-item">
+                
+<h4 class="name" id="guildCount"><span class="type-signature"></span>guildCount<span class="type-signature"> :String</span></h4>
+
+
+
+
+<div class="description">
+    The guild count.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul class="ul-type">
+        <li>
+            
+<span class="param-type">String</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="structures_PostOptions.js.html">structures/PostOptions.js</a>, <a href="structures_PostOptions.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            </div>
+        
+            <div class="subsection-item">
+                
+<h4 class="name" id="token"><span class="type-signature"></span>token<span class="type-signature"> :String</span></h4>
+
+
+
+
+<div class="description">
+    The API token.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul class="ul-type">
+        <li>
+            
+<span class="param-type">String</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="structures_PostOptions.js.html">structures/PostOptions.js</a>, <a href="structures_PostOptions.js.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            </div>
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
