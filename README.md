@@ -1,6 +1,6 @@
 <div style='text-align: center;'>
     <p>
-        <img src='https://i.imgur.com/TvAtKmw.png' width=450 height=170>
+        <img src='https://i.imgur.com/TvAtKmw.png' width=450 height=230>
     </p>
     <p>
         <a href='https://nodei.co/npm/bfd-simpleapi/'><img src='https://nodei.co/npm/bfd-simpleapi.png'></a>
