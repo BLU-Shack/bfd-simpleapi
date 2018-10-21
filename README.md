@@ -1,5 +1,7 @@
 <div style='text-align: center;'>
-    <img src='https://i.imgur.com/TvAtKmw.png' width=500 height=170>
+    <p>
+        <img src='https://i.imgur.com/TvAtKmw.png' width=500 height=170>
+    </p>
     <p>
         <a href='https://nodei.co/npm/bfd-simpleapi/'><img src='https://nodei.co/npm/bfd-simpleapi.png'></a>
     </p>
@@ -109,7 +111,7 @@ Client.fetchWidgetSelf(?options);
 ```
 An Example Widget Preview:
 
-<a href='https://botsfordiscord.com/bots/463803888072523797'><img src='images/widget.jpeg' height=160 width=355 alt='Preview Unavailable'></a>
+<a href='https://botsfordiscord.com/bots/463803888072523797'><img src='https://i.imgur.com/fS1Prw6.png' height=160 width=355 alt='Preview Unavailable'></a>
 
 ## Miscellaneous Info
 
