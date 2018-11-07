@@ -47,7 +47,7 @@ class Bot extends Base {
         this.guildCount = bot.server_count || null;
 
         /**
-         * Whether or not the bot allows advertisements to be run on their site.
+         * Whether or not the bot allows advertisements to be run on their page.
          * @type {Boolean}
          */
         this.hasAdvertisements = bot.hasAds;
@@ -57,12 +57,6 @@ class Bot extends Base {
          * @type {String}
          */
         this.inviteURL = bot.invite;
-
-        /**
-         * The bot's invite URL, with no permissions set.
-         * @type {String}
-         */
-        this.inviteNoPerms = bot.invite.replace(/&permissions=[0-9]*/gi, '');
 
         /**
          * Whether or not the bot is approved.
@@ -119,12 +113,6 @@ class Bot extends Base {
         this.supportURL = bot.support_server || null;
 
         /**
-         * The bot's support code, if any.
-         * @type {?String}
-         */
-        this.supportCode = bot.support_server ? bot.support_server.replace(/(https|http):\/\/discord\.gg\//, '') : null;
-
-        /**
          * The bot's primary owner ID.
          * @type {String}
          */
@@ -171,6 +159,32 @@ class Bot extends Base {
          * @type {String}
          */
         this.widget = bot.widgetUrl || null;
+    }
+
+    /**
+     * Returns the bot's invite URL with no perms.
+     * @type {?String}
+     */
+    get inviteNoPerms() {
+        if (!this.inviteURL) return null;
+        return this.inviteURL.replace(/&permissions=[0-9]*/gi, '');
+    }
+
+    /**
+     * Returns the bot's support code, if any.
+     * @type {?String}
+     */
+    get supportCode() {
+        if (!this.supportURL) return null;
+        return this.supportURL.replace(/(https|http):\/\/discord\.gg\//, '');
+    }
+
+    /**
+     * The bot's page URL.
+     * @type {String}
+     */
+    get url() {
+        return `https://botsfordiscord.com/bot/${this.id}`;
     }
 
     /**

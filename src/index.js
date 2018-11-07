@@ -3,10 +3,11 @@ const util = require('util') // eslint-disable-line
 const endpoint = 'https://botsfordiscord.com/api';
 const ClientOptions = require('./structures/ClientOptions.js').ClientOptions;
 const FetchOptions = require('./structures/FetchOptions.js').FetchOptions;
-const Bot = require('./structures/Bot').Bot;
-const User = require('./structures/User').User;
-const WidgetFetchOptions = require('./structures/WidgetFetchOptions').WidgetFetchOptions;
-const PostOptions = require('./structures/PostOptions').PostOptions;
+const Bot = require('./structures/Bot.js').Bot;
+const User = require('./structures/User.js').User;
+const WidgetFetchOptions = require('./structures/WidgetFetchOptions.js').WidgetFetchOptions;
+const WebhookPostOptions = require('./structures/WebhookPostOptions.js').WebhookPostOptions;
+const PostOptions = require('./structures/PostOptions.js').PostOptions;
 
 class Client {
     /**
@@ -58,7 +59,7 @@ class Client {
         if (Options.guildCount === 'Missing') throw new ReferenceError('options.guildCount must be supplied; Not needed if you supply a valid client on initialization.');
         if (typeof Options.guildCount !== 'number') throw new TypeError('options.guildCount must be a number.');
         const size = {
-            count: Options.guildCount
+            server_count: Options.guildCount
         };
         return new Promise((resolve, reject) => {
             Fetch(`${endpoint}/bot/${Options.botID}`, { method: 'POST', headers: { Authorization: Options.token, 'Content-Type': 'application/json' }, body: JSON.stringify(size) })
@@ -212,6 +213,24 @@ class Client {
         return new Promise((resolve, reject) => {
             this.isVerified(this.options.botID)
                 .then(resolve)
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Tests posting to a webhook.
+     * @param {WebhookPostOptions} options Webhook Post Options.
+     * @returns {Object} An object containing an example.
+     */
+    postWebhook(options = {}) {
+        if (options !== Object(options) || options instanceof Array) throw new TypeError('options must be an object.');
+        const Options = new WebhookPostOptions(options);
+        return new Promise((resolve, reject) => {
+            Fetch(`${endpoint}/webhooktest${Options.userID}${Options.botID}${Options.votes}`, { Authorization: Options.secret })
+                .then(async body => {
+                    const webhook = await body.json();
+                    resolve(webhook);
+                })
                 .catch(reject);
         });
     }
