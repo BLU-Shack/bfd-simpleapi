@@ -1,6 +1,6 @@
 const Fetch = require('node-fetch');
 const util = require('util') // eslint-disable-line
-const base = 'https://botsfordiscord.com/api';
+const endpoint = 'https://botsfordiscord.com/api';
 const ClientOptions = require('./structures/ClientOptions.js').ClientOptions;
 const FetchOptions = require('./structures/FetchOptions.js').FetchOptions;
 const Bot = require('./structures/Bot').Bot;
@@ -28,8 +28,8 @@ class Client {
 
     /**
      * Change a value of the object.
-     * @param {ClientOptions} options Client Options for change.
-     * @param {Boolean} preset Whether or not to have preset options.
+     * @param {ClientOptions} [options={}] Client Options for change.
+     * @param {Boolean} [preset=false] Whether or not to have preset options.
      * @returns {this}
      * @example
      * console.log(Client.edit({ log: false }));
@@ -48,20 +48,6 @@ class Client {
 
     /**
      * Post your server count to your bot. Bot ID is supplied ID from initialization.
-     * @deprecated Use setGuilds() instead.
-     * @param {PostOptions|Number} [options={}] Post Options. (Allows a number)
-     * @returns {Promise<Object>} Returns a message.
-     */
-    setCount(options = {}) {
-        return new Promise((resolve, reject) => {
-            this.setGuilds(options)
-                .then(resolve)
-                .catch(reject);
-        });
-    }
-
-    /**
-     * Post your server count to your bot. Bot ID is supplied ID from initialization.
      * @param {PostOptions} [options={}] Post Options.
      * @returns {Promise<Object>} Returns a message.
      */
@@ -75,8 +61,11 @@ class Client {
             count: Options.guildCount
         };
         return new Promise((resolve, reject) => {
-            Fetch(`${base}/bot/${Options.botID}`, { method: 'POST', headers: { Authorization: Options.token, 'Content-Type': 'application/json' }, body: JSON.stringify(size) })
-                .then(resolve)
+            Fetch(`${endpoint}/bot/${Options.botID}`, { method: 'POST', headers: { Authorization: Options.token, 'Content-Type': 'application/json' }, body: JSON.stringify(size) })
+                .then(async body => {
+                    const resolved = await body.json();
+                    resolve(resolved);
+                })
                 .catch(reject);
         });
     }
@@ -92,7 +81,7 @@ class Client {
         if (typeof botID !== 'string') throw new TypeError('The bot ID must be a string.');
         if (botID.length !== 18) throw new SyntaxError('The bot ID must be exactly an 18-digit number-string thing');
         return new Promise((resolve, reject) => {
-            Fetch(`${base}/bot/${botID}`)
+            Fetch(`${endpoint}/bot/${botID}`)
                 .then(async response => {
                     const Body = await response.json();
                     const Options = new FetchOptions(options);
@@ -124,35 +113,6 @@ class Client {
     }
 
     /**
-     * Check if a bot is verified. Shorthand convenience function for this.fetchBot(botID, 'verified')
-     * @param {String} botID I guess if you wanted to check if a bot was verified...you could use this...
-     * @returns {Promise<Boolean>} Returns true or false, depending if the bot is verified or not.
-     */
-    isVerified(botID) {
-        if (!botID) throw new ReferenceError('The options.botID must be supplied.');
-        if (typeof botID !== 'string') throw new TypeError('The bot ID must be a string.');
-        if (botID.length !== 18) throw new SyntaxError('The bot ID must be exactly an 18-digit number-string thing');
-        return new Promise((resolve, reject) => {
-            this.fetchBot(botID, { specified: 'isVerified' })
-                .then(resolve)
-                .catch(reject);
-        });
-    }
-
-    /**
-     * Check if your own bot is verified.
-     * @returns {Promise<Boolean>} Returns true or false, depending if the bot is verified or not.
-     */
-    isVerifiedSelf() {
-        if (!this.options.botID) throw new ReferenceError('The options.botID must be supplied.');
-        return new Promise((resolve, reject) => {
-            this.isVerified(this.options.botID)
-                .then(resolve)
-                .catch(reject);
-        });
-    }
-
-    /**
      * Fetch a user that has logged on to the list.
      * @param {String} userID The user ID to fetch.
      * @param {FetchOptions} [options={}] A specific thing to get, like
@@ -167,7 +127,7 @@ class Client {
         if (typeof userID !== 'string') throw new TypeError('The user ID must be a string.');
         if (userID.length !== 18) throw new SyntaxError('The user ID must be exactly an 18-digit number-string thing');
         return new Promise((resolve, reject) => {
-            Fetch(`${base}/user/${userID}`)
+            Fetch(`${endpoint}/user/${userID}`)
                 .then(async response => {
                     const Body = await response.json();
                     const Options = new FetchOptions(options);
@@ -204,7 +164,7 @@ class Client {
         return new Promise((resolve, reject) => {
             const Options = new WidgetFetchOptions(options);
             if (Options.width < 400 || Options.height < 180) console.warn('Any widgets with a size smaller than 400x180 may be distorted to an unknown level.');
-            Fetch(`${base}/bot/${botID}/widget${Options.width}${Options.height}`)
+            Fetch(`${endpoint}/bot/${botID}/widget${Options.width}${Options.height}`)
                 .then(async widget => {
                     const Body = await widget.buffer();
                     this._log(Body);
@@ -229,11 +189,10 @@ class Client {
 
     /**
      * Check if a bot is verified. Shorthand convenience function for this.fetchBot(botID, 'verified')
-     * @deprecated use isVerified() instead.
      * @param {String} botID I guess if you wanted to check if a bot was verified...you could use this...
      * @returns {Promise<Boolean>} Returns true or false, depending if the bot is verified or not.
      */
-    checkVerif(botID) {
+    isVerified(botID) {
         if (!botID) throw new ReferenceError('The options.botID must be supplied.');
         if (typeof botID !== 'string') throw new TypeError('The bot ID must be a string.');
         if (botID.length !== 18) throw new SyntaxError('The bot ID must be exactly an 18-digit number-string thing');
@@ -246,13 +205,12 @@ class Client {
 
     /**
      * Check if your own bot is verified.
-     * @deprecated Use .selfIsVerified();
      * @returns {Promise<Boolean>} Returns true or false, depending if the bot is verified or not.
      */
-    checkVerifSelf() {
+    isVerifiedSelf() {
         if (!this.options.botID) throw new ReferenceError('The options.botID must be supplied.');
         return new Promise((resolve, reject) => {
-            this.checkVerif(this.options.botID)
+            this.isVerified(this.options.botID)
                 .then(resolve)
                 .catch(reject);
         });
@@ -263,22 +221,17 @@ class Client {
      * @returns {String} The Base URL.
      * @static
      */
-    static get BaseURL() {
-        return base;
+    static get endpoint() {
+        return endpoint;
     }
 
     /**
      * All of the Classes used.
-     * @returns {Object}
      * @static
      */
     static get Classes() {
         return { Bot, User, ClientOptions, PostOptions, FetchOptions, WidgetFetchOptions };
     }
 }
-
-Client.prototype.setCount = util.deprecate(Client.prototype.setCount, 'Client#setCount() => Use Client#setGuilds() instead.');
-Client.prototype.checkVerif = util.deprecate(Client.prototype.checkVerif, 'Client#checkVerif() => Use Client#isVerified() instead.');
-Client.prototype.checkVerifSelf = util.deprecate(Client.prototype.checkVerifSelf, 'Client#checkVerifSelf() => Use Client#selfIsVerified() instead.');
 
 module.exports = Client;

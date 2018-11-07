@@ -14,16 +14,19 @@ class ClientOptions {
          * @type {String}
          */
         this.token = newObj.token ? newObj.token !== 'none' ? newObj.token : false : oldObj.token;
+
         /**
          * The bot ID, for "self" actions.
          * @type {String}
          */
         this.botID = newObj.botID ? newObj.botID !== 'none' ? newObj.botID : false : oldObj.botID;
+
         /**
          * The discord.js#Client object.
          * @type {Object}
          */
         this.client = newObj.client ? newObj.client !== 'none' ? newObj.client : false : oldObj.client;
+
         /**
          * Whether or not to log FETCH actions.
          * @type {Boolean}
