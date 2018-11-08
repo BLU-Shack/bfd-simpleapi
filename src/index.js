@@ -250,7 +250,7 @@ class Client {
      * @static
      */
     static get Classes() {
-        return { Bot, ClientOptions, User, PostOptions, FetchOptions, WidgetFetchOptions };
+        return { Bot, ClientOptions, FetchOptions, PostOptions, User, WebhookPostOptions, WidgetFetchOptions };
     }
 }
 
