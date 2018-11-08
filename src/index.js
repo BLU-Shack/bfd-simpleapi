@@ -9,6 +9,8 @@ const WidgetFetchOptions = require('./structures/WidgetFetchOptions.js').WidgetF
 const WebhookPostOptions = require('./structures/WebhookPostOptions.js').WebhookPostOptions;
 const PostOptions = require('./structures/PostOptions.js').PostOptions;
 
+const warn = require('./util/warn.js').warn;
+
 class Client {
     /**
      * Initializes the API wrapper.
@@ -80,19 +82,20 @@ class Client {
     fetchBot(botID, options = {}) {
         if (!botID) throw new ReferenceError('The bot ID must be supplied.');
         if (typeof botID !== 'string') throw new TypeError('The bot ID must be a string.');
-        if (botID.length !== 18) throw new SyntaxError('The bot ID must be exactly an 18-digit number-string thing');
         return new Promise((resolve, reject) => {
             Fetch(`${endpoint}/bot/${botID}`)
                 .then(async response => {
                     const Body = await response.json();
                     const Options = new FetchOptions(options);
                     if (Options.normal) {
-                        this._log(Options.specified ? Body[Options.specified] : Body);
-                        resolve(Options.specified ? Body[Options.specified] : Body);
+                        const resolved = Options.specified ? Body[Options.specified] : Body;
+                        this._log(resolved);
+                        resolve(resolved);
                     } else {
-                        const BfdBot = new Bot(Body);
-                        this._log(Options.specified ? BfdBot[Options.specified] : BfdBot);
-                        resolve(Options.specified ? BfdBot[Options.specified] : BfdBot);
+                        const BfdBot = Options.stringify ? new Bot(Body).toString() : new Bot(Body);
+                        const resolved = Options.specified ? BfdBot[Options.specified] : BfdBot;
+                        this._log(resolved);
+                        resolve(resolved);
                     }
                 })
                 .catch(reject);
@@ -105,12 +108,8 @@ class Client {
      * @returns {Promise<Bot>} Returns the fetched bot data.
      */
     fetchSelf(options = {}) {
-        if (!this.options.botID) throw new ReferenceError('The botID must be supplied on initialization.');
-        return new Promise((resolve, reject) => {
-            this.fetchBot(this.options.botID, options)
-                .then(resolve)
-                .catch(reject);
-        });
+        if (!this.options.botID) throw new ReferenceError('ClientOptions.botID is non-existent.');
+        return this.fetchBot(this.options.botID, options);
     }
 
     /**
@@ -126,20 +125,41 @@ class Client {
     fetchUser(userID, options = {}) {
         if (!userID) throw new ReferenceError('The user ID must be supplied.');
         if (typeof userID !== 'string') throw new TypeError('The user ID must be a string.');
-        if (userID.length !== 18) throw new SyntaxError('The user ID must be exactly an 18-digit number-string thing');
         return new Promise((resolve, reject) => {
             Fetch(`${endpoint}/user/${userID}`)
                 .then(async response => {
                     const Body = await response.json();
                     const Options = new FetchOptions(options);
                     if (Options.normal) {
-                        this._log(Options.specified ? Body[Options.specified] : Body);
-                        resolve(Options.specified ? Body[Options.specified] : Body);
+                        const resolved = Options.specified ? Body[Options.specified] : Body;
+                        this._log(resolved);
+                        resolve(resolved);
                     } else {
-                        const BfdUser = new User(Body);
-                        this._log(Options.specified ? BfdUser[Options.specified] : BfdUser);
-                        resolve(Options.specified ? BfdUser[Options.specified] : BfdUser);
+                        const BfdUser = Options.stringify ? new User(Body).toString() : new User(Body);
+                        const resolved = Options.specified ? BfdUser[Options.specified] : BfdUser;
+                        this._log(resolved);
+                        resolve(resolved);
                     }
+                })
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Fetches the bot IDs the user owns.
+     * @param {String} userID The user ID to get their bots from.
+     * @returns {Promise<Array<String>>} An array of the bot IDs the user owns.
+     */
+    fetchUserBots(userID) {
+        if (!userID) throw new ReferenceError('userID must be defined.');
+        if (typeof userID !== 'string') throw new TypeError('userID must be a string.');
+        return new Promise((resolve, reject) => {
+            Fetch(`${endpoint}/user/${userID}/bots`)
+                .then(async body => {
+                    const Body2 = await body.json();
+                    const Bots = Body2.bots;
+                    this._log(Bots);
+                    resolve(Bots);
                 })
                 .catch(reject);
         });
@@ -164,7 +184,7 @@ class Client {
 
         return new Promise((resolve, reject) => {
             const Options = new WidgetFetchOptions(options);
-            if (Options.width < 400 || Options.height < 180) console.warn('Any widgets with a size smaller than 400x180 may be distorted to an unknown level.');
+            if (Options.width < 400 || Options.height < 180) warn('Any widgets with a size smaller than 400x180 may be distorted to an unknown level.');
             Fetch(`${endpoint}/bot/${botID}/widget${Options.width}${Options.height}`)
                 .then(async widget => {
                     const Body = await widget.buffer();
@@ -196,7 +216,6 @@ class Client {
     isVerified(botID) {
         if (!botID) throw new ReferenceError('The options.botID must be supplied.');
         if (typeof botID !== 'string') throw new TypeError('The bot ID must be a string.');
-        if (botID.length !== 18) throw new SyntaxError('The bot ID must be exactly an 18-digit number-string thing');
         return new Promise((resolve, reject) => {
             this.fetchBot(botID, { specified: 'isVerified' })
                 .then(resolve)
@@ -251,6 +270,14 @@ class Client {
      */
     static get Classes() {
         return { Bot, ClientOptions, FetchOptions, PostOptions, User, WebhookPostOptions, WidgetFetchOptions };
+    }
+
+    /**
+     * Console logs warn message.
+     * @param {*} message The message to console warn.
+     */
+    static warn(message) {
+        return warn(message);
     }
 }
 

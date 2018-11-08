@@ -57,6 +57,24 @@ class User extends Base {
          */
         this.website = user.website || null;
     }
+
+    /**
+     * The user's URL on the site.
+     * @type {String}
+     */
+    get url() {
+        return `https://botsfordiscord.com/user/${this.id}`;
+    }
+
+    /**
+     * Returns the User mention instead of returning the User object.
+     * @returns {String}
+     * @example
+     * console.log(`Oh wow look a User with mention ${User}`) // Oh wow look a User with mention <@3721691092030913>
+     */
+    toString() {
+        return `<@${this.id}>`;
+    }
 }
 
 exports.User = User;

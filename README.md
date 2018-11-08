@@ -63,10 +63,12 @@ Client.setCount({ guildCount: 1000, token: 'RealToken', botID: 'RealBotID' }); /
 ```js
 // Fetch a bot from the list.
 // botID (String) => The bot ID to fetch.
-// options (?FetchOptions) => A specific thing to get, like "verified" or "username"
+// options (?FetchOptions) => Fetch Options.
+// options.normal => Whether or not to get the plain bot object.
+// options.specified => The specific value to get.
 Client.fetchBot(botID, ?options);
 Client.fetchBot('463803888072523797');
-Client.fetchBot('463803888072523797', { specified: 'username' }); // ListBot
+Client.fetchBot('463803888072523797', { specified: 'username' }); // Kenny
 ```
 
 </details>
@@ -79,7 +81,7 @@ Client.fetchBot('463803888072523797', { specified: 'username' }); // ListBot
 // options (?FetchOptions) => A specific thing to get, like "verified" or "username"
 Client.fetchSelf(?options);
 Client.fetchSelf();
-Client.fetchSelf({ specified: 'username' }); // ListBot
+Client.fetchSelf({ specified: 'username' }); // Kenny
 ```
 
 </details>

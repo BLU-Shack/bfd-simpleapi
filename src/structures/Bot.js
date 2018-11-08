@@ -180,7 +180,7 @@ class Bot extends Base {
     }
 
     /**
-     * The bot's page URL.
+     * The bot's URL on the site.
      * @type {String}
      */
     get url() {
@@ -199,6 +199,16 @@ class Bot extends Base {
      */
     support(code = false) {
         return code ? this.supportCode : this.supportURL;
+    }
+
+    /**
+     * Returns the bot mention instead of the Bot object.
+     * @returns {String}
+     * @example
+     * console.log('Oh Hecc this is a bot with mention ${Bot}'); // Oh Hecc this is a bot with mention <@1392832738917398>
+     */
+    toString() {
+        return `<@${this.id}>`;
     }
 }
 
