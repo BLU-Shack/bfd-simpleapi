@@ -1,4 +1,4 @@
-const Base = require('./bases/Base').Base;
+const Base = require('./Base').Base;
 const util = require('util');
 
 /**

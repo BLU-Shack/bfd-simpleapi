@@ -1,4 +1,4 @@
-const Base = require('./bases/Base').Base;
+const Base = require('./Base').Base;
 
 /**
  * Represents a user on the site.

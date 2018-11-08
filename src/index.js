@@ -17,6 +17,11 @@ class Client {
      * @param {ClientOptions} [options=ClientOptions.default] Client Options.
      */
     constructor(options = ClientOptions.default) {
+        /**
+         * @ignore
+         * @type {ClientOptions}
+         */
+        this.options;
         this.edit(options, true); // Note from the Developer: DO NOT TOUCH!!!!!!!
     }
 
@@ -66,12 +71,11 @@ class Client {
     setGuilds(options = {}) {
         if (options !== Object(options) || options instanceof Array) throw new TypeError('options must be an object.');
         const Options = new PostOptions(options, this.options);
-        if (!this.options.token) throw new ReferenceError('To post your server count, you must supply an API token on initialization.');
-        if (Options.guildCount === 'Missing') throw new ReferenceError('options.guildCount must be supplied; Not needed if you supply a valid client on initialization.');
+        if (!Options.token) throw new ReferenceError('POSTing server count requires a token to be set.');
+        if (!Options.botID) throw new ReferenceError('POSTing server count requires a bot ID to be set.');
+        if (!Options.guildCount) throw new ReferenceError('options.guildCount must be supplied; Not needed if you supply a valid client on initialization.');
         if (typeof Options.guildCount !== 'number') throw new TypeError('options.guildCount must be a number.');
-        const size = {
-            server_count: Options.guildCount
-        };
+        const size = { server_count: Options.guildCount };
         return new Promise((resolve, reject) => {
             Fetch(`${endpoint}/bot/${Options.botID}`, { method: 'POST', headers: { Authorization: Options.token, 'Content-Type': 'application/json' }, body: JSON.stringify(size) })
                 .then(async body => {

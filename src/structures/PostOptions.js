@@ -23,9 +23,9 @@ class PostOptions {
 
         /**
          * The guild count.
-         * @type {String}
+         * @type {Number}
          */
-        this.guildCount = options.guildCount || (preset.client ? preset.client.guilds.size : 'Missing');
+        this.guildCount = options.guildCount;
     }
 }
 
