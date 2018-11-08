@@ -189,6 +189,7 @@ class Bot extends Base {
 
     /**
      * @deprecated Use {@link Bot#inviteURL} or {@link Bot#inviteNoPerms}
+     * @param {Boolean} [perms=true] Whether or not to return the invite link with permissions.
      */
     invite(perms = true) {
         return perms ? this.inviteURL : this.inviteNoPerms;
@@ -196,6 +197,7 @@ class Bot extends Base {
 
     /**
      * @deprecated Use {@link Bot#supportURL} or {@link Bot#supportCode}
+     * @param {Boolean} [code=false] Whether or not to return the support URL's code rather than the URL itself.
      */
     support(code = false) {
         return code ? this.supportCode : this.supportURL;

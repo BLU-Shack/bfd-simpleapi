@@ -10,14 +10,8 @@ class PostOptions {
      */
     constructor(options, preset) {
         /**
-         * The API token.
-         * @type {String}
-         */
-        this.token = options.token || preset.token;
-
-        /**
          * The bot ID.
-         * @type {String}
+         * @type {?String}
          */
         this.botID = options.botID || preset.botID;
 
@@ -26,6 +20,12 @@ class PostOptions {
          * @type {Number}
          */
         this.guildCount = options.guildCount;
+
+        /**
+         * The API token.
+         * @type {?String}
+         */
+        this.token = options.token || preset.token;
     }
 }
 

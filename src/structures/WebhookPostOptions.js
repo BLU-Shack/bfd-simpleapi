@@ -10,6 +10,12 @@ class WebhookPostOptions {
      */
     constructor(options = {}, client = {}) {
         /**
+         * The example Bot ID that'd been voted by the user.
+         * @type {?String}
+         */
+        this.botID = options.botID || client.botID || null;
+
+        /**
          * The Webhook Secret. Overrides the preset secret.
          * @type {?String}
          */
@@ -23,12 +29,6 @@ class WebhookPostOptions {
          * @type {?String}
          */
         this.userID = options.user || null;
-
-        /**
-         * The example Bot ID that'd been voted by the user.
-         * @type {?String}
-         */
-        this.botID = options.botID || client.botID || null;
 
         /**
          * The example object of voting information.
