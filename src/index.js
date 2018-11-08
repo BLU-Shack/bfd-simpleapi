@@ -226,7 +226,8 @@ class Client {
         if (options !== Object(options) || options instanceof Array) throw new TypeError('options must be an object.');
         const Options = new WebhookPostOptions(options);
         return new Promise((resolve, reject) => {
-            Fetch(`${endpoint}/webhooktest${Options.userID}${Options.botID}${Options.votes}`, { Authorization: Options.secret })
+            const data = { user: Options.userID, bot: Options.botID, votes: Options.votes };
+            Fetch(`${endpoint}/webhooktest`, { method: 'POST', headers: { Authorization: this.options.token }, body: JSON.stringify(data) })
                 .then(async body => {
                     const webhook = await body.json();
                     resolve(webhook);
@@ -249,7 +250,7 @@ class Client {
      * @static
      */
     static get Classes() {
-        return { Bot, User, ClientOptions, PostOptions, FetchOptions, WidgetFetchOptions };
+        return { Bot, ClientOptions, User, PostOptions, FetchOptions, WidgetFetchOptions };
     }
 }
 

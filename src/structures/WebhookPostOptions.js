@@ -22,19 +22,19 @@ class WebhookPostOptions {
          * The example User ID that'd voted.
          * @type {?String}
          */
-        this.userID = `?user=${options.user || null}`;
+        this.userID = options.user || null;
 
         /**
          * The example Bot ID that'd been voted by the user.
          * @type {?String}
          */
-        this.botID = `?bot=${options.botID || client.botID || null}`;
+        this.botID = options.botID || client.botID || null;
 
         /**
          * The example object of voting information.
          * @type {?Object}
          */
-        this.votes = `?votes=${options.votes || null}`;
+        this.votes = options.votes || null;
     }
 }
 
