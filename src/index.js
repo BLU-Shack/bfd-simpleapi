@@ -22,11 +22,20 @@ class Client {
 
     /**
      * By the way, if you are reading this, this won't run if you have options.log disabled.
-     * @param {any} message The thing to console log.
+     * @param {*} message The message to console log.
      * @private
      */
     _log(message) {
         if (this.options.log) console.log(message);
+    }
+
+    /**
+     * Outputs red text in the console. Kool stuff.
+     * @param {*} message The message to console log as RED.
+     * @private
+     */
+    _warn(message) {
+        warn(message);
     }
 
     /**
@@ -156,8 +165,8 @@ class Client {
         return new Promise((resolve, reject) => {
             Fetch(`${endpoint}/user/${userID}/bots`)
                 .then(async body => {
-                    const Body2 = await body.json();
-                    const Bots = Body2.bots;
+                    const Obj = await body.json();
+                    const Bots = Obj.bots;
                     this._log(Bots);
                     resolve(Bots);
                 })
@@ -181,10 +190,9 @@ class Client {
         if (!botID) throw new ReferenceError('botID must be provided.');
         if (typeof botID !== 'string') throw new TypeError('botID must be a string.');
         if (options !== Object(options) || options instanceof Array) throw new TypeError('options must be an object.');
-
         return new Promise((resolve, reject) => {
             const Options = new WidgetFetchOptions(options);
-            if (Options.width < 400 || Options.height < 180) warn('Any widgets with a size smaller than 400x180 may be distorted to an unknown level.');
+            if (Options.width < 400 || Options.height < 180) this._warn('Any widgets with a size smaller than 400x180 may be distorted to an unknown level.');
             Fetch(`${endpoint}/bot/${botID}/widget${Options.width}${Options.height}`)
                 .then(async widget => {
                     const Body = await widget.buffer();
@@ -201,11 +209,8 @@ class Client {
      * @returns {Promise<Buffer>} The widget buffer.
      */
     fetchWidgetSelf(options = {}) {
-        return new Promise((resolve, reject) => {
-            this.fetchWidget(this.options.botID, options)
-                .then(resolve)
-                .catch(reject);
-        });
+        if (!this.options.botID) throw new ReferenceError('ClientOptions.botID is non-existent.');
+        return this.fetchWidget(this.options.botID, options);
     }
 
     /**
@@ -270,14 +275,6 @@ class Client {
      */
     static get Classes() {
         return { Bot, ClientOptions, FetchOptions, PostOptions, User, WebhookPostOptions, WidgetFetchOptions };
-    }
-
-    /**
-     * Console logs warn message.
-     * @param {*} message The message to console warn.
-     */
-    static warn(message) {
-        return warn(message);
     }
 }
 
