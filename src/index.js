@@ -2,6 +2,7 @@ const Fetch = require('node-fetch');
 const util = require('util') // eslint-disable-line
 const endpoint = 'https://botsfordiscord.com/api';
 const ClientOptions = require('./structures/ClientOptions.js').ClientOptions;
+const FetchError = require('./structures/FetchError.js').FetchError;
 const FetchOptions = require('./structures/FetchOptions.js').FetchOptions;
 const Bot = require('./structures/Bot.js').Bot;
 const User = require('./structures/User.js').User;
@@ -10,6 +11,7 @@ const WebhookPostOptions = require('./structures/WebhookPostOptions.js').Webhook
 const PostOptions = require('./structures/PostOptions.js').PostOptions;
 
 const warn = require('./util/warn.js').warn;
+const bufferToObject = require('./util/bufferToObject.js').bufferToObject;
 
 class Client {
     /**
@@ -32,6 +34,16 @@ class Client {
      */
     _log(message) {
         if (this.options.log) console.log(message);
+    }
+
+    /**
+     * Parses a buffer into a JS object, and returns true if it can, otherwise false.
+     * @param {Buffer} buffer The buffer to check if it can be returned as an object or not.
+     * @returns {Boolean} Whether or not the buffer can be parsed as a JS object.
+     * @private
+     */
+    _parse(buffer) {
+        return bufferToObject(buffer);
     }
 
     /**
@@ -97,15 +109,16 @@ class Client {
         if (typeof botID !== 'string') throw new TypeError('The bot ID must be a string.');
         return new Promise((resolve, reject) => {
             Fetch(`${endpoint}/bot/${botID}`)
-                .then(async response => {
-                    const Body = await response.json();
+                .then(async body => {
+                    const bot = await body.json();
+                    if (bot.message) throw new FetchError(bot.message);
                     const Options = new FetchOptions(options);
                     if (Options.normal) {
-                        const resolved = Options.specified ? Body[Options.specified] : Body;
+                        const resolved = Options.specified ? bot[Options.specified] : bot;
                         this._log(resolved);
                         resolve(resolved);
                     } else {
-                        const BfdBot = Options.stringify ? new Bot(Body).toString() : new Bot(Body);
+                        const BfdBot = Options.stringify ? new Bot(bot).toString() : new Bot(bot);
                         const resolved = Options.specified ? BfdBot[Options.specified] : BfdBot;
                         this._log(resolved);
                         resolve(resolved);
@@ -140,15 +153,16 @@ class Client {
         if (typeof userID !== 'string') throw new TypeError('The user ID must be a string.');
         return new Promise((resolve, reject) => {
             Fetch(`${endpoint}/user/${userID}`)
-                .then(async response => {
-                    const Body = await response.json();
+                .then(async body => {
+                    const user = await body.json();
+                    if (user.message) throw new FetchError(user.message);
                     const Options = new FetchOptions(options);
                     if (Options.normal) {
-                        const resolved = Options.specified ? Body[Options.specified] : Body;
+                        const resolved = Options.specified ? user[Options.specified] : user;
                         this._log(resolved);
                         resolve(resolved);
                     } else {
-                        const BfdUser = Options.stringify ? new User(Body).toString() : new User(Body);
+                        const BfdUser = Options.stringify ? new User(user).toString() : new User(user);
                         const resolved = Options.specified ? BfdUser[Options.specified] : BfdUser;
                         this._log(resolved);
                         resolve(resolved);
@@ -169,8 +183,9 @@ class Client {
         return new Promise((resolve, reject) => {
             Fetch(`${endpoint}/user/${userID}/bots`)
                 .then(async body => {
-                    const Obj = await body.json();
-                    const Bots = Obj.bots;
+                    const info = await body.json();
+                    if (info.message) throw new FetchError(info.message);
+                    const Bots = info.bots;
                     this._log(Bots);
                     resolve(Bots);
                 })
@@ -200,6 +215,7 @@ class Client {
             Fetch(`${endpoint}/bot/${botID}/widget${Options.width}${Options.height}`)
                 .then(async widget => {
                     const Body = await widget.buffer();
+                    if (this._parse(Body)) throw new FetchError(JSON.parse(Body).message);
                     this._log(Body);
                     resolve(Body);
                 })
