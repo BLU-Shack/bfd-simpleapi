@@ -206,12 +206,12 @@ class Client {
      *  .catch(console.error);
      */
     fetchWidget(botID, options = {}) {
-        if (!botID) throw new ReferenceError('botID must be provided.');
+        if (!botID) throw new ReferenceError('botID must be defined.');
         if (typeof botID !== 'string') throw new TypeError('botID must be a string.');
         if (options !== Object(options) || options instanceof Array) throw new TypeError('options must be an object.');
         return new Promise((resolve, reject) => {
             const Options = new WidgetFetchOptions(options);
-            if (Options.width < 400 || Options.height < 180) this._warn('Any widgets with a size smaller than 400x180 may be distorted to an unknown level.');
+            if (Options.width < 400 || Options.height < 180) this._warn('Any widgets fetched with a requested size smaller than 400x180 may be distorted to an unknown level.');
             Fetch(`${endpoint}/bot/${botID}/widget${Options.width}${Options.height}`)
                 .then(async widget => {
                     const Body = await widget.buffer();
@@ -239,8 +239,8 @@ class Client {
      * @returns {Promise<Boolean>} Returns true or false, depending if the bot is verified or not.
      */
     isVerified(botID) {
-        if (!botID) throw new ReferenceError('The options.botID must be supplied.');
-        if (typeof botID !== 'string') throw new TypeError('The bot ID must be a string.');
+        if (!botID) throw new ReferenceError('botID must be defined.');
+        if (typeof botID !== 'string') throw new TypeError('botID must be a string.');
         return new Promise((resolve, reject) => {
             this.fetchBot(botID, { specified: 'isVerified' })
                 .then(resolve)
@@ -253,12 +253,8 @@ class Client {
      * @returns {Promise<Boolean>} Returns true or false, depending if the bot is verified or not.
      */
     isVerifiedSelf() {
-        if (!this.options.botID) throw new ReferenceError('The options.botID must be supplied.');
-        return new Promise((resolve, reject) => {
-            this.isVerified(this.options.botID)
-                .then(resolve)
-                .catch(reject);
-        });
+        if (!this.options.botID) throw new ReferenceError('this.options.botID must be defined.');
+        return this.isVerified(this.options.botID);
     }
 
     /**
