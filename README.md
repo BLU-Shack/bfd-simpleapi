@@ -111,7 +111,7 @@ Client.fetchWidgetSelf(?options);
 ```
 An Example Widget Preview:
 
-<a href='https://botsfordiscord.com/bots/463803888072523797'><img src='https://i.imgur.com/fS1Prw6.png' height=160 width=355 alt='Preview Unavailable'></a>
+</details>
 
 ## Miscellaneous Info
 
