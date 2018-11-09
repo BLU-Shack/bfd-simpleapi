@@ -173,7 +173,7 @@ class Client {
     }
 
     /**
-     * Fetches the bot IDs the user owns.
+     * Fetches a user's bots' IDs.
      * @param {String} userID The user ID to get their bots from.
      * @returns {Promise<Array<String>>} An array of the bot IDs the user owns.
      */

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Base - Documentation</title>
+    <title>WebhookPostOptions - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Base</h1>
+    <h1 class="page-title">WebhookPostOptions</h1>
     
     
 
@@ -40,10 +40,8 @@
 <header>
     
         <h2>
-        Base
+        WebhookPostOptions
         </h2>
-        
-            <div class="class-description">Universal base object.</div>
         
     
 </header>
@@ -54,10 +52,8 @@
         
 
     
-    <h2>Constructor</h2>
-    
 
-    <h4 class="name" id="Base"><span class="type-signature"></span>new Base<span class="signature">(base)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="WebhookPostOptions"><span class="type-signature"></span>new WebhookPostOptions<span class="signature">(options<span class="signature-attributes">opt</span>, client<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -84,7 +80,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -96,23 +96,78 @@
 
         <tr>
             
-                <td class="name"><code>base</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="WebhookPostOptions.html">WebhookPostOptions</a></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Base.</td>
+            
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
+
+            <td class="description last">Webhook Post Options.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>client</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="ClientOptions.html">ClientOptions</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
+
+            <td class="description last">The preset Client Options.</td>
         </tr>
 
     
@@ -153,7 +208,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="structures_Base.js.html">structures/Base.js</a>, <a href="structures_Base.js.html#line5">line 5</a>
+        <a href="structures_WebhookPostOptions.js.html">structures/WebhookPostOptions.js</a>, <a href="structures_WebhookPostOptions.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -198,13 +253,13 @@
         
             <div class="subsection-item">
                 
-<h4 class="name" id="avatar"><span class="type-signature"></span>avatar<span class="type-signature"> :String</span></h4>
+<h4 class="name" id="botID"><span class="type-signature">(nullable) </span>botID<span class="type-signature"> :String</span></h4>
 
 
 
 
 <div class="description">
-    The Base's avatar.
+    The example Bot ID that'd been voted by the user.
 </div>
 
 
@@ -252,7 +307,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="structures_Base.js.html">structures/Base.js</a>, <a href="structures_Base.js.html#line21">line 21</a>
+        <a href="structures_WebhookPostOptions.js.html">structures/WebhookPostOptions.js</a>, <a href="structures_WebhookPostOptions.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -272,13 +327,13 @@
         
             <div class="subsection-item">
                 
-<h4 class="name" id="discriminator"><span class="type-signature"></span>discriminator<span class="type-signature"> :String</span></h4>
+<h4 class="name" id="secret"><span class="type-signature">(nullable) </span>secret<span class="type-signature"> :String</span></h4>
 
 
 
 
 <div class="description">
-    The Base's discriminator.
+    The Webhook Secret. Overrides the preset secret.
 </div>
 
 
@@ -326,7 +381,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="structures_Base.js.html">structures/Base.js</a>, <a href="structures_Base.js.html#line33">line 33</a>
+        <a href="structures_WebhookPostOptions.js.html">structures/WebhookPostOptions.js</a>, <a href="structures_WebhookPostOptions.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -346,13 +401,13 @@
         
             <div class="subsection-item">
                 
-<h4 class="name" id="id"><span class="type-signature"></span>id<span class="type-signature"> :String</span></h4>
+<h4 class="name" id="userID"><span class="type-signature">(nullable) </span>userID<span class="type-signature"> :String</span></h4>
 
 
 
 
 <div class="description">
-    The Base's object.
+    The example User ID that'd voted.
 </div>
 
 
@@ -400,7 +455,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="structures_Base.js.html">structures/Base.js</a>, <a href="structures_Base.js.html#line15">line 15</a>
+        <a href="structures_WebhookPostOptions.js.html">structures/WebhookPostOptions.js</a>, <a href="structures_WebhookPostOptions.js.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -420,13 +475,13 @@
         
             <div class="subsection-item">
                 
-<h4 class="name" id="tag"><span class="type-signature"></span>tag<span class="type-signature"> :String</span></h4>
+<h4 class="name" id="votes"><span class="type-signature">(nullable) </span>votes<span class="type-signature"> :Object</span></h4>
 
 
 
 
 <div class="description">
-    The Base's tag.
+    The example object of voting information.
 </div>
 
 
@@ -435,7 +490,7 @@
     <ul class="ul-type">
         <li>
             
-<span class="param-type">String</span>
+<span class="param-type">Object</span>
 
 
         </li>
@@ -474,81 +529,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="structures_Base.js.html">structures/Base.js</a>, <a href="structures_Base.js.html#line39">line 39</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-            </div>
-        
-            <div class="subsection-item">
-                
-<h4 class="name" id="username"><span class="type-signature"></span>username<span class="type-signature"> :String</span></h4>
-
-
-
-
-<div class="description">
-    The Base's username.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul class="ul-type">
-        <li>
-            
-<span class="param-type">String</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="structures_Base.js.html">structures/Base.js</a>, <a href="structures_Base.js.html#line27">line 27</a>
+        <a href="structures_WebhookPostOptions.js.html">structures/WebhookPostOptions.js</a>, <a href="structures_WebhookPostOptions.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
