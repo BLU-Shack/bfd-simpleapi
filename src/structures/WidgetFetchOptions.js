@@ -9,16 +9,16 @@ class WidgetFetchOptions {
      */
     constructor(options) {
         /**
-         * Sets the width of the widget.
-         * @type {Number}
-         */
-        this.width = `?width=${options.width || 400}`;
-
-        /**
          * Sets the height of the widget.
          * @type {Number}
          */
         this.height = `?height=${options.height || 180}`;
+
+        /**
+         * Sets the width of the widget.
+         * @type {Number}
+         */
+        this.width = `?width=${options.width || 400}`;
     }
 }
 

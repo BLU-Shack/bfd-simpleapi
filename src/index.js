@@ -1,12 +1,17 @@
 const Fetch = require('node-fetch');
 const util = require('util') // eslint-disable-line
-const base = 'https://botsfordiscord.com/api';
+const endpoint = 'https://botsfordiscord.com/api';
 const ClientOptions = require('./structures/ClientOptions.js').ClientOptions;
+const FetchError = require('./structures/FetchError.js').FetchError;
 const FetchOptions = require('./structures/FetchOptions.js').FetchOptions;
-const Bot = require('./structures/Bot').Bot;
-const User = require('./structures/User').User;
-const WidgetFetchOptions = require('./structures/WidgetFetchOptions').WidgetFetchOptions;
-const PostOptions = require('./structures/PostOptions').PostOptions;
+const Bot = require('./structures/Bot.js').Bot;
+const User = require('./structures/User.js').User;
+const WidgetFetchOptions = require('./structures/WidgetFetchOptions.js').WidgetFetchOptions;
+const WebhookPostOptions = require('./structures/WebhookPostOptions.js').WebhookPostOptions;
+const PostOptions = require('./structures/PostOptions.js').PostOptions;
+
+const warn = require('./util/warn.js').warn;
+const bufferToObject = require('./util/bufferToObject.js').bufferToObject;
 
 class Client {
     /**
@@ -14,12 +19,17 @@ class Client {
      * @param {ClientOptions} [options=ClientOptions.default] Client Options.
      */
     constructor(options = ClientOptions.default) {
+        /**
+         * @ignore
+         * @type {ClientOptions}
+         */
+        this.options;
         this.edit(options, true); // Note from the Developer: DO NOT TOUCH!!!!!!!
     }
 
     /**
      * By the way, if you are reading this, this won't run if you have options.log disabled.
-     * @param {any} message The thing to console log.
+     * @param {*} message The message to console log.
      * @private
      */
     _log(message) {
@@ -27,9 +37,28 @@ class Client {
     }
 
     /**
+     * Parses a buffer into a JS object, and returns true if it can, otherwise false.
+     * @param {Buffer} buffer The buffer to check if it can be returned as an object or not.
+     * @returns {Boolean} Whether or not the buffer can be parsed as a JS object.
+     * @private
+     */
+    _parse(buffer) {
+        return bufferToObject(buffer);
+    }
+
+    /**
+     * Outputs red text in the console. Kool stuff.
+     * @param {*} message The message to console log as RED.
+     * @private
+     */
+    _warn(message) {
+        warn(message);
+    }
+
+    /**
      * Change a value of the object.
-     * @param {ClientOptions} options Client Options for change.
-     * @param {Boolean} preset Whether or not to have preset options.
+     * @param {ClientOptions} [options={}] Client Options for change.
+     * @param {Boolean} [preset=false] Whether or not to have preset options.
      * @returns {this}
      * @example
      * console.log(Client.edit({ log: false }));
@@ -48,35 +77,23 @@ class Client {
 
     /**
      * Post your server count to your bot. Bot ID is supplied ID from initialization.
-     * @deprecated Use setGuilds() instead.
-     * @param {PostOptions|Number} [options={}] Post Options. (Allows a number)
-     * @returns {Promise<Object>} Returns a message.
-     */
-    setCount(options = {}) {
-        return new Promise((resolve, reject) => {
-            this.setGuilds(options)
-                .then(resolve)
-                .catch(reject);
-        });
-    }
-
-    /**
-     * Post your server count to your bot. Bot ID is supplied ID from initialization.
      * @param {PostOptions} [options={}] Post Options.
      * @returns {Promise<Object>} Returns a message.
      */
     setGuilds(options = {}) {
         if (options !== Object(options) || options instanceof Array) throw new TypeError('options must be an object.');
         const Options = new PostOptions(options, this.options);
-        if (!this.options.token) throw new ReferenceError('To post your server count, you must supply an API token on initialization.');
-        if (Options.guildCount === 'Missing') throw new ReferenceError('options.guildCount must be supplied; Not needed if you supply a valid client on initialization.');
+        if (!Options.token) throw new ReferenceError('POSTing server count requires a token to be set.');
+        if (!Options.botID) throw new ReferenceError('POSTing server count requires a bot ID to be set.');
+        if (!Options.guildCount) throw new ReferenceError('options.guildCount must be supplied; Not needed if you supply a valid client on initialization.');
         if (typeof Options.guildCount !== 'number') throw new TypeError('options.guildCount must be a number.');
-        const size = {
-            count: Options.guildCount
-        };
+        const size = { server_count: Options.guildCount };
         return new Promise((resolve, reject) => {
-            Fetch(`${base}/bot/${Options.botID}`, { method: 'POST', headers: { Authorization: Options.token, 'Content-Type': 'application/json' }, body: JSON.stringify(size) })
-                .then(resolve)
+            Fetch(`${endpoint}/bot/${Options.botID}`, { method: 'POST', headers: { Authorization: Options.token, 'Content-Type': 'application/json' }, body: JSON.stringify(size) })
+                .then(async body => {
+                    const resolved = await body.json();
+                    resolve(resolved);
+                })
                 .catch(reject);
         });
     }
@@ -90,19 +107,21 @@ class Client {
     fetchBot(botID, options = {}) {
         if (!botID) throw new ReferenceError('The bot ID must be supplied.');
         if (typeof botID !== 'string') throw new TypeError('The bot ID must be a string.');
-        if (botID.length !== 18) throw new SyntaxError('The bot ID must be exactly an 18-digit number-string thing');
         return new Promise((resolve, reject) => {
-            Fetch(`${base}/bot/${botID}`)
-                .then(async response => {
-                    const Body = await response.json();
+            Fetch(`${endpoint}/bot/${botID}`)
+                .then(async body => {
+                    const bot = await body.json();
+                    if (bot.message) throw new FetchError(bot.message);
                     const Options = new FetchOptions(options);
                     if (Options.normal) {
-                        this._log(Options.specified ? Body[Options.specified] : Body);
-                        resolve(Options.specified ? Body[Options.specified] : Body);
+                        const resolved = Options.specified ? bot[Options.specified] : bot;
+                        this._log(resolved);
+                        resolve(resolved);
                     } else {
-                        const BfdBot = new Bot(Body);
-                        this._log(Options.specified ? BfdBot[Options.specified] : BfdBot);
-                        resolve(Options.specified ? BfdBot[Options.specified] : BfdBot);
+                        const BfdBot = Options.stringify ? new Bot(bot).toString() : new Bot(bot);
+                        const resolved = Options.specified ? BfdBot[Options.specified] : BfdBot;
+                        this._log(resolved);
+                        resolve(resolved);
                     }
                 })
                 .catch(reject);
@@ -115,41 +134,8 @@ class Client {
      * @returns {Promise<Bot>} Returns the fetched bot data.
      */
     fetchSelf(options = {}) {
-        if (!this.options.botID) throw new ReferenceError('The botID must be supplied on initialization.');
-        return new Promise((resolve, reject) => {
-            this.fetchBot(this.options.botID, options)
-                .then(resolve)
-                .catch(reject);
-        });
-    }
-
-    /**
-     * Check if a bot is verified. Shorthand convenience function for this.fetchBot(botID, 'verified')
-     * @param {String} botID I guess if you wanted to check if a bot was verified...you could use this...
-     * @returns {Promise<Boolean>} Returns true or false, depending if the bot is verified or not.
-     */
-    isVerified(botID) {
-        if (!botID) throw new ReferenceError('The options.botID must be supplied.');
-        if (typeof botID !== 'string') throw new TypeError('The bot ID must be a string.');
-        if (botID.length !== 18) throw new SyntaxError('The bot ID must be exactly an 18-digit number-string thing');
-        return new Promise((resolve, reject) => {
-            this.fetchBot(botID, { specified: 'isVerified' })
-                .then(resolve)
-                .catch(reject);
-        });
-    }
-
-    /**
-     * Check if your own bot is verified.
-     * @returns {Promise<Boolean>} Returns true or false, depending if the bot is verified or not.
-     */
-    isVerifiedSelf() {
-        if (!this.options.botID) throw new ReferenceError('The options.botID must be supplied.');
-        return new Promise((resolve, reject) => {
-            this.isVerified(this.options.botID)
-                .then(resolve)
-                .catch(reject);
-        });
+        if (!this.options.botID) throw new ReferenceError('ClientOptions.botID is non-existent.');
+        return this.fetchBot(this.options.botID, options);
     }
 
     /**
@@ -165,20 +151,43 @@ class Client {
     fetchUser(userID, options = {}) {
         if (!userID) throw new ReferenceError('The user ID must be supplied.');
         if (typeof userID !== 'string') throw new TypeError('The user ID must be a string.');
-        if (userID.length !== 18) throw new SyntaxError('The user ID must be exactly an 18-digit number-string thing');
         return new Promise((resolve, reject) => {
-            Fetch(`${base}/user/${userID}`)
-                .then(async response => {
-                    const Body = await response.json();
+            Fetch(`${endpoint}/user/${userID}`)
+                .then(async body => {
+                    const user = await body.json();
+                    if (user.message) throw new FetchError(user.message);
                     const Options = new FetchOptions(options);
                     if (Options.normal) {
-                        this._log(Options.specified ? Body[Options.specified] : Body);
-                        resolve(Options.specified ? Body[Options.specified] : Body);
+                        const resolved = Options.specified ? user[Options.specified] : user;
+                        this._log(resolved);
+                        resolve(resolved);
                     } else {
-                        const BfdUser = new User(Body);
-                        this._log(Options.specified ? BfdUser[Options.specified] : BfdUser);
-                        resolve(Options.specified ? BfdUser[Options.specified] : BfdUser);
+                        const BfdUser = Options.stringify ? new User(user).toString() : new User(user);
+                        const resolved = Options.specified ? BfdUser[Options.specified] : BfdUser;
+                        this._log(resolved);
+                        resolve(resolved);
                     }
+                })
+                .catch(reject);
+        });
+    }
+
+    /**
+     * Fetches the bot IDs the user owns.
+     * @param {String} userID The user ID to get their bots from.
+     * @returns {Promise<Array<String>>} An array of the bot IDs the user owns.
+     */
+    fetchUserBots(userID) {
+        if (!userID) throw new ReferenceError('userID must be defined.');
+        if (typeof userID !== 'string') throw new TypeError('userID must be a string.');
+        return new Promise((resolve, reject) => {
+            Fetch(`${endpoint}/user/${userID}/bots`)
+                .then(async body => {
+                    const info = await body.json();
+                    if (info.message) throw new FetchError(info.message);
+                    const Bots = info.bots;
+                    this._log(Bots);
+                    resolve(Bots);
                 })
                 .catch(reject);
         });
@@ -197,16 +206,16 @@ class Client {
      *  .catch(console.error);
      */
     fetchWidget(botID, options = {}) {
-        if (!botID) throw new ReferenceError('botID must be provided.');
+        if (!botID) throw new ReferenceError('botID must be defined.');
         if (typeof botID !== 'string') throw new TypeError('botID must be a string.');
         if (options !== Object(options) || options instanceof Array) throw new TypeError('options must be an object.');
-
         return new Promise((resolve, reject) => {
             const Options = new WidgetFetchOptions(options);
-            if (Options.width < 400 || Options.height < 180) console.warn('Any widgets with a size smaller than 400x180 may be distorted to an unknown level.');
-            Fetch(`${base}/bot/${botID}/widget${Options.width}${Options.height}`)
+            if (Options.width < 400 || Options.height < 180) this._warn('Any widgets fetched with a requested size smaller than 400x180 may be distorted to an unknown level.');
+            Fetch(`${endpoint}/bot/${botID}/widget${Options.width}${Options.height}`)
                 .then(async widget => {
                     const Body = await widget.buffer();
+                    if (this._parse(Body)) throw new FetchError(JSON.parse(Body).message);
                     this._log(Body);
                     resolve(Body);
                 })
@@ -220,23 +229,18 @@ class Client {
      * @returns {Promise<Buffer>} The widget buffer.
      */
     fetchWidgetSelf(options = {}) {
-        return new Promise((resolve, reject) => {
-            this.fetchWidget(this.options.botID, options)
-                .then(resolve)
-                .catch(reject);
-        });
+        if (!this.options.botID) throw new ReferenceError('ClientOptions.botID is non-existent.');
+        return this.fetchWidget(this.options.botID, options);
     }
 
     /**
      * Check if a bot is verified. Shorthand convenience function for this.fetchBot(botID, 'verified')
-     * @deprecated use isVerified() instead.
      * @param {String} botID I guess if you wanted to check if a bot was verified...you could use this...
      * @returns {Promise<Boolean>} Returns true or false, depending if the bot is verified or not.
      */
-    checkVerif(botID) {
-        if (!botID) throw new ReferenceError('The options.botID must be supplied.');
-        if (typeof botID !== 'string') throw new TypeError('The bot ID must be a string.');
-        if (botID.length !== 18) throw new SyntaxError('The bot ID must be exactly an 18-digit number-string thing');
+    isVerified(botID) {
+        if (!botID) throw new ReferenceError('botID must be defined.');
+        if (typeof botID !== 'string') throw new TypeError('botID must be a string.');
         return new Promise((resolve, reject) => {
             this.fetchBot(botID, { specified: 'isVerified' })
                 .then(resolve)
@@ -246,14 +250,28 @@ class Client {
 
     /**
      * Check if your own bot is verified.
-     * @deprecated Use .selfIsVerified();
      * @returns {Promise<Boolean>} Returns true or false, depending if the bot is verified or not.
      */
-    checkVerifSelf() {
-        if (!this.options.botID) throw new ReferenceError('The options.botID must be supplied.');
+    isVerifiedSelf() {
+        if (!this.options.botID) throw new ReferenceError('this.options.botID must be defined.');
+        return this.isVerified(this.options.botID);
+    }
+
+    /**
+     * Tests posting to a webhook.
+     * @param {WebhookPostOptions} options Webhook Post Options.
+     * @returns {Object} An object containing an example.
+     */
+    postWebhook(options = {}) {
+        if (options !== Object(options) || options instanceof Array) throw new TypeError('options must be an object.');
+        const Options = new WebhookPostOptions(options);
         return new Promise((resolve, reject) => {
-            this.checkVerif(this.options.botID)
-                .then(resolve)
+            const data = { user: Options.userID, bot: Options.botID, votes: Options.votes };
+            Fetch(`${endpoint}/webhooktest`, { method: 'POST', headers: { Authorization: this.options.token }, body: JSON.stringify(data) })
+                .then(async body => {
+                    const webhook = await body.json();
+                    resolve(webhook);
+                })
                 .catch(reject);
         });
     }
@@ -263,22 +281,17 @@ class Client {
      * @returns {String} The Base URL.
      * @static
      */
-    static get BaseURL() {
-        return base;
+    static get endpoint() {
+        return endpoint;
     }
 
     /**
      * All of the Classes used.
-     * @returns {Object}
      * @static
      */
     static get Classes() {
-        return { Bot, User, ClientOptions, PostOptions, FetchOptions, WidgetFetchOptions };
+        return { Bot, ClientOptions, FetchOptions, PostOptions, User, WebhookPostOptions, WidgetFetchOptions };
     }
 }
-
-Client.prototype.setCount = util.deprecate(Client.prototype.setCount, 'Client#setCount() => Use Client#setGuilds() instead.');
-Client.prototype.checkVerif = util.deprecate(Client.prototype.checkVerif, 'Client#checkVerif() => Use Client#isVerified() instead.');
-Client.prototype.checkVerifSelf = util.deprecate(Client.prototype.checkVerifSelf, 'Client#checkVerifSelf() => Use Client#selfIsVerified() instead.');
 
 module.exports = Client;

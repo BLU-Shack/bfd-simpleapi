@@ -10,22 +10,22 @@ class PostOptions {
      */
     constructor(options, preset) {
         /**
-         * The API token.
-         * @type {String}
-         */
-        this.token = options.token || preset.token;
-
-        /**
          * The bot ID.
-         * @type {String}
+         * @type {?String}
          */
         this.botID = options.botID || preset.botID;
 
         /**
          * The guild count.
-         * @type {String}
+         * @type {Number}
          */
-        this.guildCount = options.guildCount || (preset.client ? preset.client.guilds.size : 'Missing');
+        this.guildCount = options.guildCount;
+
+        /**
+         * The API token.
+         * @type {?String}
+         */
+        this.token = options.token || preset.token;
     }
 }
 

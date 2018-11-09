@@ -1,6 +1,5 @@
-const Base = require('./bases/Base').Base;
-const FetchOptions = require('./FetchOptions.js').FetchOptions;
-const User = require('./User.js');
+const Base = require('./Base').Base;
+const util = require('util');
 
 /**
  * Represents a bot on the site.
@@ -14,113 +13,208 @@ class Bot extends Base {
      */
     constructor(bot) {
         super(bot);
+
+        Object.defineProperty(this, 'bot', { writable: true, enumerable: false });
+
         /**
          * The plain bot object itself.
          * @type {Object}
          */
         this.bot = bot;
+
         /**
-         * Whether or not the bot is approved.
-         * @type {Boolean}
+         * The bot's background color, if any was set.
+         * @type {?String}
          */
-        this.isApproved = bot.approved;
-        /**
-         * The bot's ID.
-         * @type {String}
-         */
-        this.id = bot.id;
+        this.backgroundColor = bot.color || null;
+
         /**
          * The bot's clientID, if any.
          * @type {?String}
          */
         this.clientID = bot.clientId || null;
+
+        /**
+        * The bot's github repository, if any.
+        * @type {?String}
+        */
+        this.github = bot.github || null;
+
+        /**
+         * The bot's guild count, if any.
+         * @type {?Number}
+         */
+        this.guildCount = bot.server_count || null;
+
+        /**
+         * Whether or not the bot allows advertisements to be run on their page.
+         * @type {Boolean}
+         */
+        this.hasAdvertisements = bot.hasAds;
+
+        /**
+         * The bot's invite URL.
+         * @type {String}
+         */
+        this.inviteURL = bot.invite;
+
+        /**
+         * Whether or not the bot is approved.
+         * @type {Boolean}
+         */
+        this.isApproved = bot.approved;
+
         /**
          * Whether or not the bot is featured on the front page.
          * @type {Boolean}
          */
         this.isFeatured = bot.featured;
-        /**
-         * The bot's library.
-         * @type {String}
-         */
-        this.library = bot.library;
+
         /**
          * Whether or not the bot is verified on the site.
          * @type {Boolean}
          */
         this.isVerified = bot.verified;
+
         /**
          * Whether or not the bot is a bot FOR the site.
          * @type {Boolean}
          */
         this.isWebsiteBot = bot.website_bot;
+
         /**
-         * The bot's long/detailed description.
+         * The bot's library.
          * @type {String}
          */
-        this.longDescription = bot.long_desc;
-        /**
-         * The bot's short description.
-         * @type {String}
-         */
-        this.shortDescription = bot.short_desc;
-        /**
-         * The bot's server count, if any.
-         * @type {?Number}
-         */
-        this.serverCount = bot.server_count || null;
+        this.library = bot.library;
+
         /**
          * The bot's prefix.
          * @type {String}
          */
         this.prefix = bot.prefix;
+
         /**
-         * The bot's github repository, if any.
+         * Identical to {@link Bot#guildCount}
+         * @type {?Number}
+         */
+        this.serverCount = this.guildCount;
+
+        /**
+         * The bot's short description.
+         * @type {String}
+         */
+        this.shortDescription = bot.short_desc;
+
+        /**
+         * The bot's support URL, if any.
          * @type {?String}
          */
-        this.github = bot.github || null;
+        this.supportURL = bot.support_server || null;
+
+        /**
+         * The bot's primary owner ID.
+         * @type {String}
+         */
+        this.owner = bot.owner;
+
+        /**
+         * The bot's secondary owner IDs, if any. Returns an empty array if none.
+         * @type {Array<?String>}
+         */
+        this.secondaryOwners = bot.owners;
+
+        /**
+         * All of the bot's owner IDs.
+         * @type {Array<String>}
+         */
+        this.owners = this.secondaryOwners.concat(this.owner);
+
+        /**
+         * The bot's vanity URL, if any.
+         * @type {String}
+         */
+        this.vanity = bot.vanityUrl || null;
+
+        /**
+         * The bot's total amount of upvotes.
+         * @type {Number}
+         */
+        this.upvotes = bot.votes;
+
+        /**
+         * The bot's upvotes in the last 24 hours.
+         * @type {Number}
+         */
+        this.upvotesPast24Hours = bot.votes24;
+
+        /**
+         * The bot's upvotes in the last month.
+         * @type {Number}
+         */
+        this.upvotesPastMonth = bot.votesMonth;
+
+        /**
+         * The bot's widget URL.
+         * @type {String}
+         */
+        this.widget = bot.widgetUrl || null;
     }
 
     /**
-     * Retrieves the invite URL of the bot.
-     * @param {Boolean} perms Whether or not to include permissions in the invite.
-     * @returns {String} The bot's invite URL.
+     * Returns the bot's invite URL with no perms.
+     * @type {?String}
+     */
+    get inviteNoPerms() {
+        if (!this.inviteURL) return null;
+        return this.inviteURL.replace(/&permissions=[0-9]*/gi, '');
+    }
+
+    /**
+     * Returns the bot's support code, if any.
+     * @type {?String}
+     */
+    get supportCode() {
+        if (!this.supportURL) return null;
+        return this.supportURL.replace(/(https|http):\/\/discord\.gg\//, '');
+    }
+
+    /**
+     * The bot's URL on the site.
+     * @type {String}
+     */
+    get url() {
+        return `https://botsfordiscord.com/bot/${this.id}`;
+    }
+
+    /**
+     * @deprecated Use {@link Bot#inviteURL} or {@link Bot#inviteNoPerms}
+     * @param {Boolean} [perms=true] Whether or not to return the invite link with permissions.
      */
     invite(perms = true) {
-        return !perms ? this.bot.invite.replace(/&permissions=[0-9]*/gi, '') : this.bot.invite;
+        return perms ? this.inviteURL : this.inviteNoPerms;
     }
 
     /**
-     * Retrieves the bot's support server invite.
-     * @param {Boolean} code Whether or not to only retrieve the invite code part of the URL.
-     * @returns {String} The support server's invite URL or code, if any.
+     * @deprecated Use {@link Bot#supportURL} or {@link Bot#supportCode}
+     * @param {Boolean} [code=false] Whether or not to return the support URL's code rather than the URL itself.
      */
     support(code = false) {
-        if (!this.bot.support_server) return null;
-        return code ? this.bot.support_server.replace(/(https|http):\/\/discord\.gg\//, '') : this.bot.support_server;
+        return code ? this.supportCode : this.supportURL;
     }
 
     /**
-     * Fetches all of the bot's owners, including the secondary ones.
-     * @param {FetchOptions} options Fetch Options.
-     * @returns {Array<User>} An array of the bot's owners.
+     * Returns the bot mention instead of the Bot object.
+     * @returns {String}
      * @example
-     * Bot.owners({ specified: 'username' })
-     *  .then(owners => console.log(`The bot owners' usernames are ${owners}`))
-     *  .catch(console.error);
+     * console.log('Oh Hecc this is a bot with mention ${Bot}'); // Oh Hecc this is a bot with mention <@1392832738917398>
      */
-    owners(options = {}) {
-        if (options !== Object(options) || options instanceof Array) throw new TypeError('options must be an object.');
-        const Options = new FetchOptions(options);
-
-        if (Options.normal) {
-            const owners = this.bot.owners.push(this.bot.owner);
-            return Options.specified ? owners.map(owner => owner[Options.specified]) : owners;
-        } else {
-            const owners = this.bot.owners.push(this.bot.owner).map(u => new User.User(u));
-            return Options.specified ? owners.map(owner => owner[Options.specified]) : owners;
-        }
+    toString() {
+        return `<@${this.id}>`;
     }
 }
+
+Bot.prototype.invite = util.deprecate(Bot.prototype.invite, 'Bot#invite() => Use Bot#inviteURL or Bot#inviteNoPerms');
+Bot.prototype.support = util.deprecate(Bot.prototype.support, 'Bot#support() => Use Bot#supportURL or Bot#supportCode');
 
 exports.Bot = Bot;
