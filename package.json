@@ -1,16 +1,17 @@
 {
   "name": "bfd-simpleapi",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "A simplified alternative to Bots for Discord",
   "main": "src/index.js",
   "dependencies": {
-    "node-fetch": "^2.2.0",
+    "@ired_me/red-store": "^1.2.0",
+    "node-fetch": "^2.3.0",
     "toast-jsdoc": "^1.0.2"
   },
   "devDependencies": {},
   "scripts": {
     "test": "node ./examples/test.js",
-    "dev": "node ./examples-private/dev.js",
+    "dev": "node ./private/dev.js",
     "docs": "jsdoc src/ -r README.md -c .jsdoc.json"
   },
   "keywords": [

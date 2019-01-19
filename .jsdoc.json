@@ -1,7 +1,15 @@
 {
-    "opts": {
-        "template": "node_modules/toast-jsdoc",
-        "destination": "docs/",
-        "recursive": true
-    }
+	"opts": {
+		"destination": "./docs/",
+		"encoding": "utf8",
+		"recurse": true,
+		"template": "./node_modules/toast-jsdoc"
+	},
+	"tags": {
+		"allowUnknownTags": false,
+		"dictionaries": [
+			"jsdoc",
+			"closure"
+		]
+	}
 }
