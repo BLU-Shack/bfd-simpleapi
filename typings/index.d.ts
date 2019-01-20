@@ -35,7 +35,7 @@ declare module 'bfd-simpleapi' {
 		public discriminator: string;
 		public featured: boolean;
 		public id: string;
-		public invite: string;
+		public inviteURL: string;
 		public library: string;
 		public name: string;
 		public ownerID: string;
