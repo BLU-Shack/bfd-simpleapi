@@ -114,8 +114,8 @@ class Client {
 
 	/**
 	 * Fetches a Bot's Upvotes.
-	 * @param {string} [id=this.options.botID]
-	 * @param {string} [botToken=this.options.botToken]
+	 * @param {string} [id=this.options.botID] The Discord ID of a bot to fetch votes from.
+	 * @param {string} [botToken=this.options.botToken] The bot's API token from Bots for Discord.
 	 * @returns {VoteContents}
 	 */
 	async fetchUpvotes(id = this.options.botID, botToken = this.options.botToken) {
@@ -150,7 +150,7 @@ class Client {
 	 * Posts guild count for a bot.
 	 * @param {string | number | PostOptions} [id=this.options.botID] The ID of the Bot to post guild count of.
 	 * * This can also be {@link PostOptions} if `this.options.botID` is defined.
-	 * * This can also be a number for {@link PostOptions#guildCount} (Requires `this.options.botToken` be present)
+	 * * This can also be a number for {@link PostOptions#guildCount} (Overrides options#guildCount if so.)
 	 * @param {PostOptions | number} [options={}] Options to pass.
 	 * * This can also be a number for {@link PostOptions#guildCount} (Requires `this.options.botToken` be present)
 	 * @returns {object}
