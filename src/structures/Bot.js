@@ -138,11 +138,15 @@ class Bot extends Base {
 		this.verified = obj.verified;
 
 		/**
-		 * The bot's recent vote activity.
-		 * @type {object}
+		 * @typedef {object} Votes
 		 * @property {number} total The total number of accumulated votes.
 		 * @property {number} last24Hours The number of votes in the past 24 hours.
 		 * @property {number} lastMonth The number of votes in the past month.
+		 */
+
+		/**
+		 * The bot's recent vote activity.
+		 * @type {Votes}
 		 */
 		this.votes = {
 			total: obj.votes,
@@ -159,6 +163,7 @@ class Bot extends Base {
 
 	/**
 	 * The bot's Discord Avatar URL.
+	 * @readonly
 	 * @type {string}
 	 */
 	get avatarURL() {
@@ -167,6 +172,7 @@ class Bot extends Base {
 
 	/**
 	 * The bot's invite, but no permission requirements.
+	 * @readonly
 	 * @type {string}
 	 */
 	get inviteNoPerms() {
@@ -175,6 +181,7 @@ class Bot extends Base {
 
 	/**
 	 * The bot's page on Bots for Discord.
+	 * @readonly
 	 * @type {string}
 	 */
 	get page() {
@@ -183,7 +190,8 @@ class Bot extends Base {
 
 	/**
 	 * The bot's support server code.
-	 * If it does not match the Discord invite regex, this returns null.
+	 * If it does not match the Discord invite regex, this returns `null`.
+	 * @readonly
 	 * @type {?string}
 	 */
 	get supportCode() {
@@ -194,6 +202,7 @@ class Bot extends Base {
 
 	/**
 	 * The bot's vanity code on Bots for Discord.
+	 * @readonly
 	 * @type {?string}
 	 */
 	get vanityCode() {

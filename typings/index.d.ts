@@ -82,7 +82,7 @@ declare module 'bfd-simpleapi' {
 		public biography: string;
 		public discriminator: string;
 		public id: string;
-		public roles: {
+		public positions: {
 			admin: boolean,
 			juniorMod: boolean,
 			mod: boolean,

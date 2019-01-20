@@ -32,10 +32,7 @@ class VoteContents extends Base {
 
 		/**
 		 * The bot's recent vote activity.
-		 * @type {object}
-		 * @property {number} total The total number of accumulated votes.
-		 * @property {number} last24Hours The number of votes in the past 24 hours.
-		 * @property {number} lastMonth The number of votes in the past month.
+		 * @type {Votes}
 		 */
 		this.votes = {
 			total: obj.votes,

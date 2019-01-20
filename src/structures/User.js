@@ -42,14 +42,18 @@ class User extends Base {
 		this.id = obj.id;
 
 		/**
-		 * The user's positions on Bots for Discord.
-		 * @type {object}
+		 * @typedef {object} Positions
 		 * @property {boolean} admin
 		 * @property {boolean} juniorMod
 		 * @property {boolean} mod
 		 * @property {boolean} verifiedDev
 		 */
-		this.roles = {
+
+		/**
+		 * The user's positions on Bots for Discord.
+		 * @type {Positions}
+		 */
+		this.positions = {
 			admin: obj.isAdmin,
 			juniorMod: obj.isJrMod,
 			mod: obj.isMod,
@@ -77,6 +81,7 @@ class User extends Base {
 
 	/**
 	 * The user's Discord Avatar URL.
+	 * @readonly
 	 * @type {string}
 	 */
 	get avatarURL() {
@@ -85,6 +90,7 @@ class User extends Base {
 
 	/**
 	 * The user's page on Bots for Discord.
+	 * @readonly
 	 * @type {string}
 	 */
 	get page() {
