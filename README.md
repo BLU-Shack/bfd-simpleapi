@@ -11,4 +11,11 @@
 
 An alternative API wrapper to Bots for Discord
 
-To install this package, use ``npm i bfd-simpleapi``
+To install this package, use `npm i bfd-simpleapi`
+
+## Full JSDoc-umentation
+
+https://blu-shack.github.io/bfd-simpleapi
+
+## Contributing
+

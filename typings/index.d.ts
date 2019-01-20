@@ -19,11 +19,11 @@ declare module 'bfd-simpleapi' {
 		public authGet(point: string, Authorization: string, ...headers: string[]): Promise<any>;
 		public post(point: string, Authorization: string, ...headers: string[]): Promise<any>;
 		public edit(options: ClientOptions, preset?: boolean): ClientOptions;
-		public fetchBot(id?: string, options?: FetchOptions): Bot;
+		public fetchBot(id?: string | FetchOptions, options?: FetchOptions): Bot;
 		public fetchBotsOfUser(id?: string): string[];
-		public fetchUpvotes(id?: string, botToken?: string): VoteContents;
+		public fetchUpvotes(id?: string | FetchOptions, botToken?: string): VoteContents;
 		public fetchUser(id: string, options?: FetchOptions): User;
-		public postCount(id?: string, options?: PostOptions): object;
+		public postCount(id?: string | number | PostOptions, options?: PostOptions | number): object;
 	}
 
 	export class Bot extends Base {
