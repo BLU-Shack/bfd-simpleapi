@@ -1,5 +1,6 @@
 const Bot = require('./structures/Bot.js');
 const User = require('./structures/User.js');
+const VoteContents = require('./structures/Vote.js');
 const FetchError = require('./structures/FetchError.js');
 const { ClientOpts, FetchOpts, PostOpts } = require('./structures/options.js');
 
@@ -46,6 +47,13 @@ class Client {
 		else return contents;
 	}
 
+	async authGet(point, Authorization, ...headers) {
+		const i = await Fetch(this.endpoint + point + headers.join(''), { headers: { Authorization } });
+		const contents = await i.json();
+		if (contents.message) throw new FetchError(i, contents.message);
+		else return contents;
+	}
+
 	async post(point, Authorization, body) {
 		const i = await Fetch(this.endpoint + point, {
 			method: 'post',
@@ -70,8 +78,8 @@ class Client {
 
 	/**
 	 * Fetches a bot that is listed on Bots for Discord.
-	 * @param {string} [id=this.options.botID]
-	 * @param {FetchOptions} [options={}]
+	 * @param {string} [id=this.options.botID] The Discord ID of a bot to fetch from.
+	 * @param {FetchOptions} [options={}] Options to pass.
 	 * @returns {Bot}
 	 */
 	async fetchBot(id = this.options.botID, options = {}) {
@@ -92,11 +100,11 @@ class Client {
 
 	/**
 	 * Fetches the bot IDs of a user.
-	 * @param {string} id
+	 * @param {string} id The Discord ID of a user to fetch owned bot IDs from.
 	 * @returns {string[]}
 	 */
 	async fetchBotsOfUser(id) {
-		if (typeof id === 'undefined') throw new ReferenceError('id must be defined.');
+		if (typeof id === 'undefined' || id === null) throw new ReferenceError('id must be defined.');
 		if (typeof id !== 'string') throw new TypeError('id must be a string.');
 
 		const contents = await this.get(`/user/${id}/bots`);
@@ -105,9 +113,25 @@ class Client {
 	}
 
 	/**
+	 * Fetches a Bot's Upvotes.
+	 * @param {string} [id=this.options.botID]
+	 * @param {string} [botToken=this.options.botToken]
+	 * @returns {VoteContents}
+	 */
+	async fetchUpvotes(id = this.options.botID, botToken = this.options.botToken) {
+		if (typeof id === 'undefined' || id === null) throw new ReferenceError('id must be defined.');
+		if (typeof id !== 'string') throw new TypeError('id must be a string.');
+		if (typeof botToken === 'undefined' || botToken === null) throw new ReferenceError('botToken must be defined.');
+		if (typeof botToken !== 'string') throw new TypeError('botToken must be a string.');
+
+		const contents = await this.authGet(`/bot/${id}/votes`, botToken);
+		return new VoteContents(contents, id);
+	}
+
+	/**
 	 * Fetches a user on Bots for Discord.
-	 * @param {string} id
-	 * @param {FetchOptions} [options={}]
+	 * @param {string} id The Discord ID of a user to fetch from.
+	 * @param {FetchOptions} [options={}] Options to pass.
 	 * @returns {User}
 	 */
 	async fetchUser(id, options = {}) {
