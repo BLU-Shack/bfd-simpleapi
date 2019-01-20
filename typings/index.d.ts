@@ -15,11 +15,13 @@ declare module 'bfd-simpleapi' {
 		public bots: Store<string, Bot>;
 		public users: Store<string, User>;
 
-		public get(): Promise<any>;
-		public post(): Promise<any>;
+		public get(point: string, ...headers: string[]): Promise<any>;
+		public authGet(point: string, Authorization: string, ...headers: string[]): Promise<any>;
+		public post(point: string, Authorization: string, ...headers: string[]): Promise<any>;
 		public edit(options: ClientOptions, preset?: boolean): ClientOptions;
 		public fetchBot(id?: string, options?: FetchOptions): Bot;
 		public fetchBotsOfUser(id?: string): string[];
+		public fetchUpvotes(id?: string, botToken?: string): VoteContents;
 		public fetchUser(id: string, options?: FetchOptions): User;
 		public postCount(id?: string, options?: PostOptions): object;
 	}
@@ -94,6 +96,18 @@ declare module 'bfd-simpleapi' {
 		public readonly page: string;
 
 		public toString(): string;
+	}
+
+	export class VoteContents extends Base {
+		constructor(obj: object, id: string);
+		public recipientID: string;
+		public voters: string[];
+		public voters24Hours: string[];
+		public votes: {
+			total: number,
+			last24Hours: number,
+			lastMonth: number,
+		};
 	}
 
 	type ClientOptions = {
