@@ -69,6 +69,7 @@ class Client {
 	}
 
 	/**
+	 * Fetches a bot that is listed on Bots for Discord.
 	 * @param {string} [id=this.options.botID]
 	 * @param {FetchOptions} [options={}]
 	 * @returns {Bot}
@@ -104,6 +105,7 @@ class Client {
 	}
 
 	/**
+	 * Fetches a user on Bots for Discord.
 	 * @param {string} id
 	 * @param {FetchOptions} [options={}]
 	 * @returns {User}
@@ -133,10 +135,12 @@ class Client {
 		if (isObject(id)) {
 			options = id;
 			id = this.options.botID;
-		} else if (typeof id === 'number') {
+		}
+		if (typeof id === 'number') {
 			options.guildCount = id;
 			id = this.options.botID;
-		} else if (typeof options === 'number') {
+		}
+		if (typeof options === 'number') {
 			options = { guildCount: options };
 		}
 		const { botToken, guildCount } = Object.assign(PostOpts, options);

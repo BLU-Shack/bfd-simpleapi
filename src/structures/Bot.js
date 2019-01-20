@@ -2,6 +2,7 @@ const Base = require('./Base.js');
 
 /**
  * Represents a Bot on Bots For Discord
+ * @extends {Base}
  */
 class Bot extends Base {
 	constructor(obj) {
@@ -71,7 +72,7 @@ class Bot extends Base {
 		 * The bot's invite URL.
 		 * @type {string}
 		 */
-		this.invite = obj.invite;
+		this.inviteURL = obj.invite;
 
 		/**
 		 * The library used to program the bot.
@@ -166,7 +167,7 @@ class Bot extends Base {
 	 * @type {string}
 	 */
 	get inviteNoPerms() {
-		return this.invite.replace(/&permissions=\d+/gi, '&permissions=0');
+		return this.inviteURL.replace(/&permissions=\d+/gi, '&permissions=0');
 	}
 
 	/**
