@@ -1,6 +1,6 @@
 const Bot = require('./structures/Bot.js');
 const User = require('./structures/User.js');
-const VoteContents = require('./structures/Vote.js');
+const VoteContents = require('./structures/VoteContents.js');
 const FetchError = require('./structures/FetchError.js');
 const { ClientOpts, FetchOpts, PostOpts } = require('./structures/options.js');
 
