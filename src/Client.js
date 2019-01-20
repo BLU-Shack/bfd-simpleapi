@@ -121,7 +121,7 @@ class Client {
 	}
 
 	/**
-	 * Posts guild count to a bot.
+	 * Posts guild count for a bot.
 	 * @param {string | number | PostOptions} [id=this.options.botID] The ID of the Bot to post guild count of.
 	 * * This can also be {@link PostOptions} if `this.options.botID` is defined.
 	 * * This can also be a number for {@link PostOptions#guildCount} (Requires `this.options.botToken` be present)
