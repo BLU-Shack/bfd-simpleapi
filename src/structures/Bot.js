@@ -5,6 +5,9 @@ const Base = require('./Base.js');
  * @extends {Base}
  */
 class Bot extends Base {
+	/**
+	 * @param {object} obj
+	 */
 	constructor(obj) {
 		super(obj);
 

@@ -12,10 +12,6 @@ const endpoint = 'https://botsfordiscord.com/api';
 const isObject = (o) => Array.isArray(o) ? false : o === Object(o);
 
 class Client {
-	get endpoint() {
-		return endpoint;
-	}
-
 	/**
 	 * @param {ClientOptions} opts
 	 */
@@ -38,6 +34,10 @@ class Client {
 		 * @type {Store}
 		 */
 		this.users = new Store();
+	}
+
+	get endpoint() {
+		return endpoint;
 	}
 
 	async get(point, ...headers) {

@@ -5,6 +5,9 @@ const Base = require('./Base.js');
  * @extends {Base}
  */
 class User extends Base {
+	/**
+	 * @param {obj}
+	 */
 	constructor(obj) {
 		super(obj);
 
