@@ -1,7 +1,7 @@
 const Bot = require('./structures/Bot.js');
 const User = require('./structures/User.js');
 const FetchError = require('./structures/FetchError.js');
-const { ClientOpts, FetchOpts, MultiFetchOpts, PostOpts } = require('./structures/options.js');
+const { ClientOpts, FetchOpts, PostOpts } = require('./structures/options.js');
 
 const check = require('./util/check.js');
 const Store = require('@ired_me/red-store');
@@ -62,8 +62,8 @@ class Client {
 		const use = preset ? ClientOpts : this.options;
 		const o = check(Object.assign(use, options));
 
-		FetchOpts.cache = MultiFetchOpts.cache = o.cache;
-		FetchOpts.botToken = MultiFetchOpts.botToken = PostOpts.botToken = o.botToken;
+		FetchOpts.cache = o.cache;
+		FetchOpts.botToken = PostOpts.botToken = o.botToken;
 
 		return this.options = o;
 	}

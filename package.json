@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "description": "A simplified alternative to Bots for Discord",
   "main": "src/index.js",
+  "types": "typings/index.d.ts",
   "dependencies": {
     "@ired_me/red-store": "^1.2.0",
     "node-fetch": "^2.3.0",

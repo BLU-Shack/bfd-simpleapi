@@ -13,6 +13,8 @@ class Bot extends Base {
 
 		this.avatar = obj.avatar;
 
+		this.backgroundColor = obj.color;
+
 		this.clientID = obj.clientId || null;
 
 		this.discriminator = obj.discrim;
@@ -22,8 +24,6 @@ class Bot extends Base {
 		this.github = obj.github || null;
 
 		this.guildCount = obj.server_count;
-
-		this.backgroundColor = obj.color;
 
 		this.id = obj.id;
 
