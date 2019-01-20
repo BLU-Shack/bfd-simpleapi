@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>FetchError - Documentation</title>
+    <title>VoteContents - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">FetchError</h1>
+    <h1 class="page-title">VoteContents</h1>
     
     
 
@@ -40,10 +40,10 @@
 <header>
     
         <h2>
-        FetchError
+        VoteContents
         </h2>
         
-            <div class="class-description">FetchError</div>
+            <div class="class-description">Represents the contents of a bot's votes through the `bots/:id/votes` endpoint.</div>
         
     
 </header>
@@ -57,7 +57,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="FetchError"><span class="type-signature"></span>new FetchError<span class="signature">(i, message)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="VoteContents"><span class="type-signature"></span>new VoteContents<span class="signature">(obj, id)</span><span class="type-signature"></span></h4>
 
     
 
@@ -96,13 +96,13 @@
 
         <tr>
             
-                <td class="name"><code>i</code></td>
+                <td class="name"><code>obj</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Response</span>
+<span class="param-type">object</span>
 
 
             
@@ -119,7 +119,7 @@
 
         <tr>
             
-                <td class="name"><code>message</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
@@ -176,7 +176,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="structures_FetchError.js.html">structures/FetchError.js</a>, <a href="structures_FetchError.js.html#line5">line 5</a>
+        <a href="structures_VoteContents.js.html">structures/VoteContents.js</a>, <a href="structures_VoteContents.js.html#line7">line 7</a>
     </li></ul></dd>
     
 
@@ -212,7 +212,7 @@
 
 
     <ul>
-        <li>Error</li>
+        <li><a href="Base.html">Base</a></li>
     </ul>
 
 
@@ -226,6 +226,385 @@
 
     
 
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            <div class="subsection-item">
+                
+<h4 class="name" id="raw"><span class="type-signature">(readonly) </span>raw<span class="type-signature"> :object</span></h4>
+
+
+
+
+<div class="description">
+    The raw object used to give class values meaning.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul class="ul-type">
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="Base.html#raw">Base#raw</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="structures_Base.js.html">structures/Base.js</a>, <a href="structures_Base.js.html#line4">line 4</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            </div>
+        
+            <div class="subsection-item">
+                
+<h4 class="name" id="recipientID"><span class="type-signature"></span>recipientID<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    The ID of the bot checking votes from.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul class="ul-type">
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="structures_VoteContents.js.html">structures/VoteContents.js</a>, <a href="structures_VoteContents.js.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            </div>
+        
+            <div class="subsection-item">
+                
+<h4 class="name" id="voters"><span class="type-signature"></span>voters<span class="type-signature"> :Array.&lt;string></span></h4>
+
+
+
+
+<div class="description">
+    An array of user IDs who have upvoted the bot.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul class="ul-type">
+        <li>
+            
+<span class="param-type">Array.&lt;string></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="structures_VoteContents.js.html">structures/VoteContents.js</a>, <a href="structures_VoteContents.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            </div>
+        
+            <div class="subsection-item">
+                
+<h4 class="name" id="voters24Hours"><span class="type-signature"></span>voters24Hours<span class="type-signature"> :Array.&lt;string></span></h4>
+
+
+
+
+<div class="description">
+    An array of user IDs who have upvoted the bot in the past 24 hours.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul class="ul-type">
+        <li>
+            
+<span class="param-type">Array.&lt;string></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="structures_VoteContents.js.html">structures/VoteContents.js</a>, <a href="structures_VoteContents.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            </div>
+        
+            <div class="subsection-item">
+                
+<h4 class="name" id="votes"><span class="type-signature"></span>votes<span class="type-signature"> :<a href="global.html#Votes">Votes</a></span></h4>
+
+
+
+
+<div class="description">
+    The bot's recent vote activity.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul class="ul-type">
+        <li>
+            
+<span class="param-type"><a href="global.html#Votes">Votes</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="structures_VoteContents.js.html">structures/VoteContents.js</a>, <a href="structures_VoteContents.js.html#line37">line 37</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            </div>
+        
     
 
     
