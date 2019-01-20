@@ -1,9 +1,11 @@
+const Base = require('./Base.js');
+
 /**
  * Represents a Bot on Bots For Discord
  */
-class Bot {
+class Bot extends Base {
 	constructor(obj) {
-		Object.defineProperty(this, 'raw', { value: obj });
+		super(obj);
 
 		this.approved = obj.approved;
 
@@ -69,6 +71,14 @@ class Bot {
 	}
 
 	/**
+	 * The bot's page on Bots for Discord.
+	 * @type {string}
+	 */
+	get page() {
+		return `https://botsfordiscord.com/bots/${this.id}`;
+	}
+
+	/**
 	 * The bot's support server code.
 	 * If it does not match the Discord invite regex, this returns null.
 	 * @type {?string}
@@ -86,6 +96,10 @@ class Bot {
 	get vanityCode() {
 		if (!this.vanityURL) return null;
 		else return this.vanityURL.split('/').pop();
+	}
+
+	toString() {
+		return `<@${this.id}>`;
 	}
 }
 

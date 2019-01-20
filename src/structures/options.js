@@ -9,3 +9,13 @@ exports.FetchOpts = {
 	cache: false,
 	raw: false,
 };
+
+exports.MultiFetchOpts = {
+	...exports.FetchOpts,
+	mapify: true,
+};
+
+exports.PostOpts = {
+	botToken: null,
+	guildCount: null,
+};
