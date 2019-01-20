@@ -62,6 +62,10 @@ class Bot extends Base {
 		this.websiteBot = obj.website_bot;
 	}
 
+	get avatarURL() {
+		return `https://cdn.discordapp.com/avatars/${this.id}/${this.avatar}`;
+	}
+
 	/**
 	 * The bot's invite, but no permission requirements.
 	 * @type {string}

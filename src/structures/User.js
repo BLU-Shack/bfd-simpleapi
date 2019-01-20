@@ -20,6 +20,10 @@ class User extends Base {
 		this.website = obj.website || null;
 	}
 
+	get avatarURL() {
+		return `https://cdn.discordapp.com/avatars/${this.id}/${this.avatar}`;
+	}
+
 	get page() {
 		return `https://botsfordiscord.com/users/${this.id}`;
 	}

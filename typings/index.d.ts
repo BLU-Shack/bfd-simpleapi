@@ -55,6 +55,7 @@ declare module 'bfd-simpleapi' {
 		public supportURL?: string;
 		public vanityURL?: string;
 
+		public readonly avatarURL: string;
 		public readonly inviteNoPerms: string;
 		public readonly page: string;
 		public readonly supportCode?: string;
@@ -89,6 +90,7 @@ declare module 'bfd-simpleapi' {
 		public username: string;
 		public website?: string;
 
+		public readonly avatarURL: string;
 		public readonly page: string;
 
 		public toString(): string;
