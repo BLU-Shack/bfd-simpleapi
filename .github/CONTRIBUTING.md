@@ -31,4 +31,3 @@ Note: Please read up on the BFD documentary [here](https://docs.botsfordiscord.c
 
 1. Fork the Repository.
 2. Done.
-3. Alternatively, you can use resources like 
