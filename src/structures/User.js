@@ -94,7 +94,7 @@ class User extends Base {
 	 * @type {string}
 	 */
 	get page() {
-		return `https://botsfordiscord.com/users/${this.id}`;
+		return `https://botsfordiscord.com/user/${this.id}`;
 	}
 
 	/**

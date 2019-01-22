@@ -1,6 +1,6 @@
 {
   "name": "bfd-simpleapi",
-  "version": "3.0.0",
+  "version": "3.0.0-1",
   "description": "A simplified alternative to Bots for Discord",
   "main": "src/index.js",
   "types": "typings/index.d.ts",
