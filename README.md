@@ -19,3 +19,4 @@ https://blu-shack.github.io/bfd-simpleapi
 
 ## Contributing
 
+[Here](https://github.com/BLU-Shack/bfd-simpleapi/blob/v3.0.0/.github/CONTRIBUTING.md)

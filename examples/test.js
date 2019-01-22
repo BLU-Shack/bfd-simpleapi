@@ -1,8 +1,7 @@
 /* eslint-disable */
 
-const API = require('../src/run.js');
-const Options = { token: 'none', botID: 'none', client: 'none', log: false};
-const Client = new API(Options);
+const API = require('../src');
+const Client = new API.Client({});
 
 /*
     To use the test functions,

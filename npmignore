@@ -1,0 +1,4 @@
+.github
+private/
+.jsdoc.json
+.eslintrc.json

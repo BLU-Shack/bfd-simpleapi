@@ -185,7 +185,7 @@ class Bot extends Base {
 	 * @type {string}
 	 */
 	get page() {
-		return `https://botsfordiscord.com/bots/${this.id}`;
+		return `https://botsfordiscord.com/bot/${this.id}`;
 	}
 
 	/**
